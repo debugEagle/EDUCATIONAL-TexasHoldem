@@ -41,7 +41,7 @@ public class RankSuitAndCardTest {
 		Card KH = new Card(Rank.Five, Suit.Clubs);
 		assertEquals(Suit.Clubs, KH.getSuit());
 		assertEquals(Rank.Five, KH.getRank());
-		assertEquals(4, KH.getRank().getValue());
+		assertEquals(5, KH.getRank().getValue());
 	}
 	
 	@Test
@@ -49,7 +49,7 @@ public class RankSuitAndCardTest {
 		Card KH = new Card(Rank.Six, Suit.Hearts);
 		assertEquals(Suit.Hearts, KH.getSuit());
 		assertEquals(Rank.Six, KH.getRank());
-		assertEquals(5, KH.getRank().getValue());
+		assertEquals(6, KH.getRank().getValue());
 	}
 	
 	@Test
@@ -57,7 +57,7 @@ public class RankSuitAndCardTest {
 		Card KH = new Card(Rank.Seven, Suit.Spades);
 		assertEquals(Suit.Spades, KH.getSuit());
 		assertEquals(Rank.Seven, KH.getRank());
-		assertEquals(6, KH.getRank().getValue());
+		assertEquals(7, KH.getRank().getValue());
 	}
 	
 	@Test
@@ -65,7 +65,7 @@ public class RankSuitAndCardTest {
 		Card KH = new Card(Rank.Eight, Suit.Diamonds);
 		assertEquals(Suit.Diamonds, KH.getSuit());
 		assertEquals(Rank.Eight, KH.getRank());
-		assertEquals(7, KH.getRank().getValue());
+		assertEquals(8, KH.getRank().getValue());
 	}
 	
 	@Test
@@ -73,7 +73,7 @@ public class RankSuitAndCardTest {
 		Card KH = new Card(Rank.Nine, Suit.Clubs);
 		assertEquals(Suit.Clubs, KH.getSuit());
 		assertEquals(Rank.Nine, KH.getRank());
-		assertEquals(8, KH.getRank().getValue());
+		assertEquals(9, KH.getRank().getValue());
 	}
 	
 	@Test
@@ -81,7 +81,7 @@ public class RankSuitAndCardTest {
 		Card KH = new Card(Rank.Ten, Suit.Hearts);
 		assertEquals(Suit.Hearts, KH.getSuit());
 		assertEquals(Rank.Ten, KH.getRank());
-		assertEquals(9, KH.getRank().getValue());
+		assertEquals(10, KH.getRank().getValue());
 	}
 	
 	@Test
@@ -89,7 +89,7 @@ public class RankSuitAndCardTest {
 		Card KH = new Card(Rank.Jack, Suit.Spades);
 		assertEquals(Suit.Spades, KH.getSuit());
 		assertEquals(Rank.Jack, KH.getRank());
-		assertEquals(10, KH.getRank().getValue());
+		assertEquals(11, KH.getRank().getValue());
 	}
 	
 	@Test
@@ -97,7 +97,7 @@ public class RankSuitAndCardTest {
 		Card KH = new Card(Rank.Queen, Suit.Diamonds);
 		assertEquals(Suit.Diamonds, KH.getSuit());
 		assertEquals(Rank.Queen, KH.getRank());
-		assertEquals(13, KH.getRank().getValue());
+		assertEquals(12, KH.getRank().getValue());
 	}
 	@Test
 	public void testKingOfClubs(){
