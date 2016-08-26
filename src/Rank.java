@@ -1,20 +1,26 @@
 /**
- * 
- */
-
-/**
- * @author metro
+ * @author Jonathon Davis
  *
  */
 public enum Rank {
-	Duece, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace;
+	Duece(2), Three(3), Four(4), Five(5), Six(6), Seven(7), Eight(8), Nine(9), Ten(10), Jack(11), Queen(12), King(13), Ace(14);
+	
+	//this field stores the value associated with the rank
+	private final int value;
+	
+	
+	/**
+	 * @param value The value associated with the rank
+	 */
+	Rank(final int value){
+		this.value = value;
+	}
 
 	/**
-	 * @return
+	 * @return The value associated with the Rank
 	 */
 	public int getValue() {
-		// TODO Auto-generated method stub
-		return -1;
+		return value;
 	}
 
 }
