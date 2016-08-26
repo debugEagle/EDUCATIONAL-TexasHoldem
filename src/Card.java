@@ -1,4 +1,8 @@
 /**
+ * The Card class creates objects that represent cards found in an average playing card deck.
+ * Each Card object contains a suit and a rank, where a Suit can be any Suit enumerated object,
+ * and the rank can be any Rank enumerated object. If the suit of a card is Clubs and the Rank
+ * is 8, then that card represents an 8 of clubs.
  * @author Jonathon Davis
  */
 public class Card {
