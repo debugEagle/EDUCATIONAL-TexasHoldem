@@ -1,33 +1,32 @@
 /**
- * 
- */
-
-/**
- * @author metro
- *
+ * @author Jonathon Davis
  */
 public class Card {
+	
+	private Rank cardRank; // Stores the rank associated with the card
+	private Suit cardSuit; // Stores the suit associated with the card
 
 	/**
-	 * @param king
-	 * @param hearts
+	 * @param rank The rank associated with the card
+	 * @param suit The suit associated with the card
 	 */
-	public Card(Rank king, Suit hearts) {
-
+	public Card(Rank rank, Suit suit) {
+		cardRank = rank;
+		cardSuit = suit;
 	}
 
 	/**
-	 * @return
+	 * @return The rank associated with the card
 	 */
 	public Rank getRank() {
-		return null;
+		return cardRank;
 	}
 
 	/**
-	 * @return
+	 * @return The suit associated with the card
 	 */
 	public Suit getSuit() {
-		return null;
+		return cardSuit;
 	}
 
 }
