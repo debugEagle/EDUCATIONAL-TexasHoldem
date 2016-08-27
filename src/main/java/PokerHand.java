@@ -305,40 +305,29 @@ public final class PokerHand implements Comparable<PokerHand> {
 	private List<Integer> isStraight(){
 		//linked list to format the output
 		LinkedList<Integer> output = new LinkedList<>();
-		output.add(hand.get(0).getRank().getValue());
 		//check if every card is 1 less then the previous card
-		for(int i = 1; i < hand.size(); i++){
-			if(hand.get(i).getRank().getValue() + 1 != hand.get(i-1).getRank().getValue()){
-				return isAceLowStraight();
+		int[] aceLowStraightExample = new int[] {14,5,4,3,2};
+		boolean isAceLow = true;
+		boolean isStraight = true;
+		
+		for(int i = 0; i < hand.size(); i++){
+			if(i >= 1 && hand.get(i).getRank().getValue() + 1 != hand.get(i-1).getRank().getValue()){
+				isStraight = false;
+			} 
+			if(hand.get(i).getRank().getValue() !=  aceLowStraightExample[i]){
+				isAceLow = false;
 			}
 			output.add(hand.get(i).getRank().getValue());
 		}
-		return output;
-	}
-	
-	/*
-	 * This method which is called by isStraight looks for the special
-	 * exception of an Ace low straight, since the encoding would see an
-	 * ace as a value of 14, this function will return a list in the configuration
-	 * [5,4,3,2,14] or null
-	 */
-	private List<Integer> isAceLowStraight(){
-		int[] aceLowStraightExample = new int[] {14,5,4,3,2};
-		
-		//checks to see if every rank is equal to the example straight
-		for(int i = 0; i < hand.size(); i++){
-			if(hand.get(i).getRank().getValue() !=  aceLowStraightExample[i]){
-				return null;
-			}
+
+		if(isStraight){
+			return output;
+		} else if (isAceLow){
+			output.add(output.pop());
+			return output;
+		} else {
+			return null;
 		}
-		//creates the list that represents an Ace low Straight
-		List<Integer> aceLowStraightValue = new LinkedList<>();
-		aceLowStraightValue.add(5);
-		aceLowStraightValue.add(4);
-		aceLowStraightValue.add(3);
-		aceLowStraightValue.add(2);
-		aceLowStraightValue.add(14);
-		return aceLowStraightValue;
 	}
 	
 	

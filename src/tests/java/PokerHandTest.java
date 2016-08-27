@@ -629,11 +629,11 @@ public class PokerHandTest {
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour,
 				handOneCardFive);
 
-		Card handTwoCardOne = new Card(Rank.Ace, Suit.Hearts);
-		Card handTwoCardTwo = new Card(Rank.King, Suit.Hearts);
-		Card handTwoCardThree = new Card(Rank.Queen, Suit.Hearts);
-		Card handTwoCardFour = new Card(Rank.Jack, Suit.Hearts);
-		Card handTwoCardFive = new Card(Rank.Ten, Suit.Hearts);
+		Card handTwoCardOne = new Card(Rank.King, Suit.Hearts);
+		Card handTwoCardTwo = new Card(Rank.Queen, Suit.Hearts);
+		Card handTwoCardThree = new Card(Rank.Jack, Suit.Hearts);
+		Card handTwoCardFour = new Card(Rank.Ten, Suit.Hearts);
+		Card handTwoCardFive = new Card(Rank.Nine, Suit.Hearts);
 		PokerHand handTwo = new PokerHand(handTwoCardOne, handTwoCardTwo, handTwoCardThree, handTwoCardFour,
 				handTwoCardFive);
 
