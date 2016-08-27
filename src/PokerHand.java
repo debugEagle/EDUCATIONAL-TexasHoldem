@@ -45,7 +45,7 @@ public final class PokerHand implements Comparable<PokerHand> {
 		}
 		
 		//find the value of this hand and store it into the value variable
-		value = getValue();
+		value = calculateValue();
 	}
 	
 	/*
@@ -115,59 +115,79 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 * The value accurately represents that a pair of aces is larger than a pair of twos
 	 * 
 	 */
-	private long getValue() {
+	private long calculateValue() {
 		List<Integer> output = null;
 		
 		//checks for StraightFlush and Straight
 		output = isStraight();
 		if(output != null){
 			if(isFlush() != null){
-				return calculateValue(output,PokerHandRankings.STRAIGHT_FLUSH);
+				return calculateHandValue(output,PokerHandRankings.STRAIGHT_FLUSH);
 			} else {
-				return calculateValue(output,PokerHandRankings.STRAIGHT);
+				return calculateHandValue(output,PokerHandRankings.STRAIGHT);
 			}
 		}
 		
 		//checks for flush
 		output = isFlush();
 		if(output != null){
-			return calculateValue(output,PokerHandRankings.FLUSH);
+			return calculateHandValue(output,PokerHandRankings.FLUSH);
 		}
 		
-		//checks for of a kind
+		//checks for four of a kind
 		output = hasXOfAKind(4);
 		if(output != null){ 
-			return calculateValue(output,PokerHandRankings.FOUR_OF_A_KIND);
-		
+			return calculateHandValue(output,PokerHandRankings.FOUR_OF_A_KIND);
 		}
 		
 		//checks for full house and 3 of a kind 
 		output = hasXOfAKind(3);
 		if(output != null){
 			if(hasXOfAKind(2) != null){
-				return calculateValue(output,PokerHandRankings.FULL_HOUSE);
+				return calculateHandValue(output,PokerHandRankings.FULL_HOUSE);
 			} else {
-				return calculateValue(output,PokerHandRankings.THREE_OF_A_KIND);
+				return calculateHandValue(output,PokerHandRankings.THREE_OF_A_KIND);
 			}
 		}
 		
 		//checks for two pairs
 		output = isTwoPair();
 		if(output != null){
-			return calculateValue(output,PokerHandRankings.TWO_PAIR);
+			return calculateHandValue(output,PokerHandRankings.TWO_PAIR);
 		}
 		
 		//checks for two of a kind
 		output = hasXOfAKind(2);
 		if(output != null){
-			return calculateValue(output,PokerHandRankings.PAIR);
+			return calculateHandValue(output,PokerHandRankings.PAIR);
 		}
 		
-		return calculateValue(output,PokerHandRankings.HIGH);
+		//format output for high card
+		output = new LinkedList<>();
+		for(Card card : hand)
+			output.add(card.getRank().getValue());
+		
+		return calculateHandValue(output,PokerHandRankings.HIGH);
 	}
 	
-
-	private long calculateValue(List<Integer> cardRanks, PokerHandRankings type){
+	/*
+	 * This function takes the value of the cards as well as the type of hand
+	 * into consideration when it calculates the value.
+	 * It iterates through the list and multiplies it by the value of the type
+	 * through each iteration the value is decreased by a factor of 100
+	 * This would encode a value like 
+	 * 14,13,12,11,9 with a type of HighCard into a number
+	 * 1413121109 or 1,413,121,109
+	 * this number would be easily comparable to a hand such as
+	 * 13,12,11,10,8
+	 * which would be encode with the type of HighCard into
+	 * 1312111008 or 1,312,111,008 where
+	 * A,K,Q,J,9 = 1,413,121,109,
+	 * K,Q,J,10,8 = 1,312,111,008 and
+	 * A,K,Q,J,9 > K,Q,J,10,8,
+	 * 1,413,121,109 > 1,312,111,008
+	 */
+	private long calculateHandValue(List<Integer> cardRanks, PokerHandRankings type){
 		long multiplier = type.getValue();
 		long result = 0;
 		//for each rank add the number * the multiplier
@@ -207,7 +227,7 @@ public final class PokerHand implements Comparable<PokerHand> {
 	private List<Integer> hasXOfAKind(int x){
 		//creates a new array where each index represents a cards rank, value stores the occurrences
 		int[] frequency = new int[13]; 
-		//creates a new Linked list to format the
+		//creates a new Linked list to format the output
 		LinkedList<Integer> output = new LinkedList<>();
 		//boolean represents whether or not a four of a kind was found
 		boolean foundXOfAKind = false;
@@ -247,7 +267,19 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 * null
 	 */
 	private List<Integer> isFlush(){
-		return null;
+		//linked list to format the output
+		LinkedList<Integer> output = new LinkedList<>();
+		//boolean represents whether or not a four of a kind was found
+		Suit flushSuit = hand.get(0).getSuit();
+		//tests if all cards are of the same suit
+		for(Card card : hand){
+			if(card.getSuit() != flushSuit){
+				return null;
+			}
+			output.add(card.getRank().getValue());
+		}
+		//return the output if the hand is a flush
+		return output;
 	}
 	
 	/*
@@ -264,7 +296,42 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 * null
 	 */
 	private List<Integer> isStraight(){
-		return null;
+		//linked list to format the output
+		LinkedList<Integer> output = new LinkedList<>();
+		output.add(hand.get(0).getRank().getValue());
+		//check if every card is 1 less then the previous card
+		for(int i = 1; i < hand.size(); i++){
+			if(hand.get(i).getRank().getValue() + 1 != hand.get(i-1).getRank().getValue()){
+				return isAceLowStraight();
+			}
+			output.add(hand.get(i).getRank().getValue());
+		}
+		return output;
+	}
+	
+	/*
+	 * This method which is called by isStraight looks for the special
+	 * exception of an Ace low straight, since the encoding would see an
+	 * ace as a value of 14, this function will return a list in the configuration
+	 * [5,4,3,2,14] or null
+	 */
+	private List<Integer> isAceLowStraight(){
+		int[] aceLowStraightExample = new int[] {14,5,4,3,2};
+		
+		//checks to see if every rank is equal to the example straight
+		for(int i = 0; i < hand.size(); i++){
+			if(hand.get(i).getRank().getValue() !=  aceLowStraightExample[i]){
+				return null;
+			}
+		}
+		//creates the list that represents an Ace low Straight
+		List<Integer> aceLowStraightValue = new LinkedList<>();
+		aceLowStraightValue.add(5);
+		aceLowStraightValue.add(4);
+		aceLowStraightValue.add(3);
+		aceLowStraightValue.add(2);
+		aceLowStraightValue.add(14);
+		return aceLowStraightValue;
 	}
 	
 	
@@ -282,9 +349,42 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 * null
 	 */
 	private List<Integer> isTwoPair(){
-		return null;
+		//creates a new array where each index represents a cards rank, value stores the occurrences
+				int[] frequency = new int[13]; 
+				//creates a new Linked list to format the output
+				LinkedList<Integer> output = new LinkedList<>();
+				//boolean represents whether or not a four of a kind was found
+				int other = 0;
+				
+				//loops through all of the cards in the hand and counts their 
+				//Occurrences by storing the number of times the occur in the frequencies
+				for(Card card : hand){
+					if(frequency[card.getRank().getValue()-2] == 0){
+						output.add(card.getRank().getValue());
+					}
+					frequency[card.getRank().getValue()-2]++;
+				}
+				
+				//loops through all of the possible frequencies
+				//then checks if any are equal to 2
+				for(int i = 0; i < frequency.length; i++){
+					if(frequency[i] == 2){
+						output.remove(new Integer(i+2));
+						output.addFirst(i+2);
+					} else if (frequency[i] == 1){
+						other = i+2;
+						output.remove(new Integer(i+2));
+					}
+				}
+				
+				if(output.size() == 2){
+					Collections.sort(output, Collections.reverseOrder());
+					output.add(other);
+					return output;
+				}
+				
+				return null;
 	}
-	
 	
 	//Tests whether there are any duplicate cards in the two hands
 	private static boolean hasDuplicate(final List<Card> handOne, final List<Card> handTwo){

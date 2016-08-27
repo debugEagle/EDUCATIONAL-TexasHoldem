@@ -410,6 +410,26 @@ public class PokerHandTest {
 	}
 	
 	@Test
+	public void testAceLowStraightFlushLosesToStraightFlushHigh(){
+		Card handOneCardOne = new Card(Rank.Duece,Suit.Spades);
+		Card handOneCardTwo = new Card(Rank.Three,Suit.Spades);
+		Card handOneCardThree = new Card(Rank.Four,Suit.Spades);
+		Card handOneCardFour = new Card(Rank.Five,Suit.Spades);
+		Card handOneCardFive = new Card(Rank.Ace,Suit.Spades);
+		PokerHand handOne = new PokerHand(handOneCardOne,handOneCardTwo,handOneCardThree,handOneCardFour,handOneCardFive);
+		
+		Card handTwoCardOne = new Card(Rank.Ace,Suit.Hearts);
+		Card handTwoCardTwo = new Card(Rank.King,Suit.Hearts);
+		Card handTwoCardThree = new Card(Rank.Queen,Suit.Hearts);
+		Card handTwoCardFour = new Card(Rank.Jack,Suit.Hearts);
+		Card handTwoCardFive = new Card(Rank.Ten,Suit.Hearts);
+		PokerHand handTwo = new PokerHand(handTwoCardOne,handTwoCardTwo,handTwoCardThree,handTwoCardFour,handTwoCardFive);
+		
+		assertEquals(-1,handOne.compareTo(handTwo));
+		assertEquals(1,handTwo.compareTo(handOne));
+	}
+	
+	@Test
 	public void testStraightFlushTiesStraightFlush(){
 		Card handOneCardOne = new Card(Rank.Ace,Suit.Spades);
 		Card handOneCardTwo = new Card(Rank.King,Suit.Spades);
