@@ -5,7 +5,7 @@
  * is 8, then that card represents an 8 of clubs.
  * @author Jonathon Davis
  */
-public class Card {
+public class Card implements Comparable<Card> {
 	
 	private Rank cardRank; // Stores the rank associated with the card
 	private Suit cardSuit; // Stores the suit associated with the card
@@ -32,5 +32,21 @@ public class Card {
 	public Suit getSuit() {
 		return cardSuit;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(Card o) {
+		return this.cardRank.getValue() - o.cardRank.getValue();
+	}
+	
+	public boolean equals(Card o) {
+		if(this.getRank() == o.getRank() && this.getSuit() == o.getSuit()){
+			return true;
+		}
+		return false;
+	}
+
 
 }

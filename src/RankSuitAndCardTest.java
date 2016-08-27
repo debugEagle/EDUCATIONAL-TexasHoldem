@@ -1,5 +1,8 @@
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.junit.Test;
 
 /**
@@ -113,6 +116,42 @@ public class RankSuitAndCardTest {
 		assertEquals(Suit.Hearts, KH.getSuit());
 		assertEquals(Rank.Ace, KH.getRank());
 		assertEquals(14, KH.getRank().getValue());
+	}
+	
+	@Test
+	public void testCompare(){
+		Card cardOne = new Card(Rank.Seven,Suit.Clubs);
+		Card cardTwo = new Card(Rank.Ace,Suit.Clubs);
+		Card cardThree = new Card(Rank.Four,Suit.Clubs);
+		Card cardFour = new Card(Rank.Queen,Suit.Clubs);
+		Card cardFive = new Card(Rank.Duece,Suit.Clubs);
+		
+		ArrayList<Card> list = new ArrayList<>();
+		list.add(cardOne);
+		list.add(cardTwo);
+		list.add(cardThree);
+		list.add(cardFour);
+		list.add(cardFive);
+		
+		Collections.sort(list, Collections.reverseOrder());
+		
+		assertEquals(Rank.Ace,list.get(0).getRank());
+		assertEquals(Rank.Queen,list.get(1).getRank());
+		assertEquals(Rank.Seven,list.get(2).getRank());
+		assertEquals(Rank.Four,list.get(3).getRank());
+		assertEquals(Rank.Duece,list.get(4).getRank());
+	}
+	
+	@Test
+	public void testEquals(){
+		Card cardOne = new Card(Rank.Seven,Suit.Clubs);
+		Card cardTwo = new Card(Rank.Seven,Suit.Clubs);
+		Card cardThree = new Card(Rank.Four,Suit.Clubs);
+
+		assertEquals(true, cardOne.equals(cardTwo));
+		assertEquals(false, cardOne.equals(cardThree));
+		assertEquals(true, cardTwo.equals(cardOne));
+		assertEquals(false, cardTwo.equals(cardThree));
 	}
 
 	
