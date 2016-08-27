@@ -1,3 +1,4 @@
+package main.java;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,7 +37,13 @@ public final class PokerHand implements Comparable<PokerHand> {
 		Collections.sort(hand, Collections.reverseOrder());
 	
 		//tests if there are no duplicate cards in the hand
-		for(int i = 0; i <= hand.size(); i++){
+		//also test for invalid cards, such as ranks and suits of null
+		for(int i = 0; i < hand.size(); i++){
+			//test for invalid cards
+			if(hand.get(i) == null || hand.get(i).getRank() == null || hand.get(i).getSuit() == null){
+				throw new NullPointerException();
+			}
+			//test for copies
 			for(int j = i+1; j < hand.size(); j++){
 				if(hand.get(i).equals(hand.get(j))){
 					throw new DuplicateCardException(); 
@@ -58,7 +65,7 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 * consider the following hand
 	 * [2 of spades, 2 of hearts, 3 of spades, 4 of diamonds, 6 of hearts]
 	 * is a pair, when the hand is passed to the isPair() function it will receive
-	 * [2 of null, 6 of null, 4 of null, 3 of null]
+	 * [2, 6, 4, 3]
 	 * Since it received an array rather then null it knows the value is a pair, so it
 	 * will multiply the first value of the card by the constant for a pair 1E8, Then it
 	 * will multiply each subsequent card by 1 * 10 ^ (the last value - 2)
@@ -85,8 +92,8 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 * 
 	 * This continues up to a royal flush
 	 * [A of spades, King of spades, Queen of spades, Jack of spades, 10 of spades]
-	 * when passed to isRoyalFlush would return
-	 * [A of null, King of null, Queen of null, jack of null, 10 of null]
+	 * when passed to is RoyalFlush would return
+	 * [A, King, Queen, jack, 10]
 	 * we would use the Straight flush constant of 1E16
 	 * 14 * 1E16 + 13 * 1E14 + 12 * 1E12 + 11 * 1E10 + 10 * 1E8
 	 * 14000000000000000 + 130000000000000 + 12000000000 + 100000000
@@ -101,7 +108,7 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 * This works for hands of the same type as well for example
 	 * [A of spades, A of Diamonds, 2 of hearts, 3 of spades, 4 of hearts]
 	 * This hand is a pair and after passed to the isPair function, a Card[] will be returned like this
-	 * [A of null, 4 of null, 3 of null, 2 of null]
+	 * [A, 4, 3, 2]
 	 * with the calculation of a pair
 	 * 14 * 1E9 + 4 * 1E7 + 3 * 1E5 + 2 * 1E3
 	 * This is expanded as 
@@ -350,40 +357,40 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 */
 	private List<Integer> isTwoPair(){
 		//creates a new array where each index represents a cards rank, value stores the occurrences
-				int[] frequency = new int[13]; 
-				//creates a new Linked list to format the output
-				LinkedList<Integer> output = new LinkedList<>();
-				//boolean represents whether or not a four of a kind was found
-				int other = 0;
+		int[] frequency = new int[13]; 
+		//creates a new Linked list to format the output
+		LinkedList<Integer> output = new LinkedList<>();
+		//boolean represents whether or not a four of a kind was found
+		int other = 0;
 				
-				//loops through all of the cards in the hand and counts their 
-				//Occurrences by storing the number of times the occur in the frequencies
-				for(Card card : hand){
-					if(frequency[card.getRank().getValue()-2] == 0){
-						output.add(card.getRank().getValue());
-					}
-					frequency[card.getRank().getValue()-2]++;
-				}
+		//loops through all of the cards in the hand and counts their 
+		//Occurrences by storing the number of times the occur in the frequencies
+		for(Card card : hand){
+			if(frequency[card.getRank().getValue()-2] == 0){
+				output.add(card.getRank().getValue());
+			}
+			frequency[card.getRank().getValue()-2]++;
+		}
+		
+		//loops through all of the possible frequencies
+		//then checks if any are equal to 2
+		for(int i = 0; i < frequency.length; i++){
+			if(frequency[i] == 2){
+				output.remove(new Integer(i+2));
+				output.addFirst(i+2);
+			} else if (frequency[i] == 1){
+				other = i+2;
+				output.remove(new Integer(i+2));
+			}
+		}
 				
-				//loops through all of the possible frequencies
-				//then checks if any are equal to 2
-				for(int i = 0; i < frequency.length; i++){
-					if(frequency[i] == 2){
-						output.remove(new Integer(i+2));
-						output.addFirst(i+2);
-					} else if (frequency[i] == 1){
-						other = i+2;
-						output.remove(new Integer(i+2));
-					}
-				}
+		if(output.size() == 2){
+			Collections.sort(output, Collections.reverseOrder());
+			output.add(other);
+			return output;
+		}
 				
-				if(output.size() == 2){
-					Collections.sort(output, Collections.reverseOrder());
-					output.add(other);
-					return output;
-				}
-				
-				return null;
+		return null;
 	}
 	
 	//Tests whether there are any duplicate cards in the two hands
@@ -415,6 +422,16 @@ public final class PokerHand implements Comparable<PokerHand> {
 		} else {
 			return 0;
 		}
+	}
+	
+	//equals method used in testing
+	public boolean equals(PokerHand o){
+		for(int i = 0; i < hand.size(); i++){
+			if(!hand.get(i).equals(o.hand.get(i))){
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

@@ -1,3 +1,4 @@
+package main.java;
 /**
  * This class contains all the different types of valid poker hand combinations
  * as well as stores an associated value with each constant

@@ -1,3 +1,4 @@
+package main.java;
 /**
  * The Card class creates objects that represent cards found in an average playing card deck.
  * Each Card object contains a suit and a rank, where a Suit can be any Suit enumerated object,
@@ -41,6 +42,11 @@ public class Card implements Comparable<Card> {
 		return this.cardRank.getValue() - o.cardRank.getValue();
 	}
 	
+	/**
+	 * returns true if both the rank and suit are the same for both cards
+	 * @param o the other object to compare to
+	 * @return true if both rank and suit are the same, false otherwise
+	 */
 	public boolean equals(Card o) {
 		if(this.getRank() == o.getRank() && this.getSuit() == o.getSuit()){
 			return true;
