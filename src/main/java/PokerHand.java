@@ -142,15 +142,15 @@ public final class PokerHand implements Comparable<PokerHand> {
 		}
 		
 		//checks for four of a kind
-		output = hasXOfAKind(4);
+		output = hasYNumberOfXofaKind(1,4);
 		if(output != null){ 
 			return calculateHandValue(output,PokerHandRankings.FOUR_OF_A_KIND);
 		}
 		
 		//checks for full house and 3 of a kind 
-		output = hasXOfAKind(3);
+		output = hasYNumberOfXofaKind(1,3);
 		if(output != null){
-			if(hasXOfAKind(2) != null){
+			if(hasYNumberOfXofaKind(1,2) != null){
 				return calculateHandValue(output,PokerHandRankings.FULL_HOUSE);
 			} else {
 				return calculateHandValue(output,PokerHandRankings.THREE_OF_A_KIND);
@@ -158,13 +158,13 @@ public final class PokerHand implements Comparable<PokerHand> {
 		}
 		
 		//checks for two pairs
-		output = isTwoPair();
+		output = hasYNumberOfXofaKind(2,2);
 		if(output != null){
 			return calculateHandValue(output,PokerHandRankings.TWO_PAIR);
 		}
 		
 		//checks for two of a kind
-		output = hasXOfAKind(2);
+		output = hasYNumberOfXofaKind(1,2);
 		if(output != null){
 			return calculateHandValue(output,PokerHandRankings.PAIR);
 		}
@@ -212,17 +212,21 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 * The format will be from highest to lowest, starting with the X of a kind
 	 * For example 
 	 * 
-	 * when x = 4
+	 * when y is 1 and x is 4 then the method looks for a four of a kind
+	 * when y is 2 and x is 2 then the method looks for 2 pairs
+	 * when y is 1 and x is 3 then the method looks for a three of a kind
+	 * 
+	 * when y = 1 x = 4
 	 * [3 of Spades, 3 of Diamonds, 3 of Hearts, 3 of Clubs, 10 of Spades] 
 	 * would return 
 	 * [3, 10] 
 	 * 
-	 * when x = 2
+	 * when y = 1 x = 2
 	 * [3 of Spades, 3 of Diamonds, 3 of Hearts, 3 of Clubs, 10 of Spades] 
 	 * would return 
 	 * null
 	 * 
-	 * when x = 2
+	 * when y= 1 x = 2
 	 * [3 of Spades, 3 of Diamonds, 6 of Hearts, 7 of Clubs, 10 of Spades] 
 	 * would return 
 	 * [3, 10, 7, 6]
@@ -231,34 +235,45 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 * would return
 	 * null
 	 */
-	private List<Integer> hasXOfAKind(int x){
+	private List<Integer> hasYNumberOfXofaKind(int y, int x){
 		//creates a new array where each index represents a cards rank, value stores the occurrences
 		int[] frequency = new int[13]; 
 		//creates a new Linked list to format the output
 		LinkedList<Integer> output = new LinkedList<>();
-		//boolean represents whether or not a four of a kind was found
-		boolean foundXOfAKind = false;
-		
+		//this represents a list of all the other outputs that are not an x of a kind
+		LinkedList<Integer> other = new LinkedList<>();
+		int maxFrequency = 0;
+				
 		//loops through all of the cards in the hand and counts their 
 		//Occurrences by storing the number of times the occur in the frequencies
 		for(Card card : hand){
 			if(frequency[card.getRank().getValue()-2] == 0){
 				output.add(card.getRank().getValue());
 			}
-			frequency[card.getRank().getValue()-2]++;
+			int temp = ++frequency[card.getRank().getValue()-2];
+			maxFrequency = (maxFrequency < temp)?temp:maxFrequency;
 		}
 		
 		//loops through all of the possible frequencies
-		//then checks if any are equal to x
-		for(int i = 0; i < frequency.length; i++){
-			if(frequency[i] == x){
-				output.remove(new Integer(i+2));
-				output.addFirst(i+2);
-				foundXOfAKind = true;
+		//then checks if any are equal to 2
+		if(maxFrequency >= x){
+			for(int i = 0; i < frequency.length; i++){
+				if(frequency[i] == x){
+					output.remove(new Integer(i+2));
+					output.addFirst(i+2);
+				} else if (frequency[i] >= 1){
+					other.add(i+2);
+					output.remove(new Integer(i+2));
+				}
+			}
+					
+			if(output.size() == y){
+				Collections.sort(output, Collections.reverseOrder());
+				output.addAll(other);
+				return output;
 			}
 		}
-		//return the output if a X of a kind was found, null otherwise
-		return (foundXOfAKind)?output:null;
+		return null;
 	}
 	
 	/*
@@ -328,58 +343,6 @@ public final class PokerHand implements Comparable<PokerHand> {
 		} else {
 			return null;
 		}
-	}
-	
-	
-	/*
-	 * Returns a formatted card array if the hand is a Two Pairs, null otherwise
-	 * The format will be from highest to lowest, starting with the 2 pairs
-	 * For example 
-	 * 
-	 * [3 of Spades, 3 of Diamonds, 7 of Hearts, 7 of Clubs, 10 of Spades] 
-	 * would return 
-	 * [7, 3, 10] 
-	 * 
-	 * [J of Spades, 6 of Spades, A of Spades, 5 of Spades, 2 of Spades]
-	 * would return
-	 * null
-	 */
-	private List<Integer> isTwoPair(){
-		//creates a new array where each index represents a cards rank, value stores the occurrences
-		int[] frequency = new int[13]; 
-		//creates a new Linked list to format the output
-		LinkedList<Integer> output = new LinkedList<>();
-		//boolean represents whether or not a four of a kind was found
-		int other = 0;
-				
-		//loops through all of the cards in the hand and counts their 
-		//Occurrences by storing the number of times the occur in the frequencies
-		for(Card card : hand){
-			if(frequency[card.getRank().getValue()-2] == 0){
-				output.add(card.getRank().getValue());
-			}
-			frequency[card.getRank().getValue()-2]++;
-		}
-		
-		//loops through all of the possible frequencies
-		//then checks if any are equal to 2
-		for(int i = 0; i < frequency.length; i++){
-			if(frequency[i] == 2){
-				output.remove(new Integer(i+2));
-				output.addFirst(i+2);
-			} else if (frequency[i] == 1){
-				other = i+2;
-				output.remove(new Integer(i+2));
-			}
-		}
-				
-		if(output.size() == 2){
-			Collections.sort(output, Collections.reverseOrder());
-			output.add(other);
-			return output;
-		}
-				
-		return null;
 	}
 	
 	//Tests whether there are any duplicate cards in the two hands
