@@ -171,15 +171,15 @@ public class PokerHandTest {
 	
 	@Test
 	public void testStraightBeatsThreeOfAKind() {
-		Card handOneCardOne = new Card(Rank.Six,Suit.Clubs);
-		Card handOneCardTwo = new Card(Rank.Five,Suit.Diamonds);
-		Card handOneCardThree = new Card(Rank.Four,Suit.Spades);
-		Card handOneCardFour = new Card(Rank.Three,Suit.Clubs);
-		Card handOneCardFive = new Card(Rank.Duece,Suit.Diamonds);
+		Card handOneCardOne = new Card(Rank.Five,Suit.Clubs);
+		Card handOneCardTwo = new Card(Rank.Four,Suit.Diamonds);
+		Card handOneCardThree = new Card(Rank.Three,Suit.Spades);
+		Card handOneCardFour = new Card(Rank.Duece,Suit.Clubs);
+		Card handOneCardFive = new Card(Rank.Ace,Suit.Diamonds);
 		PokerHand handOne = new PokerHand(handOneCardOne,handOneCardTwo,handOneCardThree,handOneCardFour,handOneCardFive);
 		
 		Card handTwoCardOne = new Card(Rank.Ace,Suit.Clubs);
-		Card handTwoCardTwo = new Card(Rank.Ace,Suit.Diamonds);
+		Card handTwoCardTwo = new Card(Rank.Ace,Suit.Hearts);
 		Card handTwoCardThree = new Card(Rank.Ace,Suit.Spades);
 		Card handTwoCardFour = new Card(Rank.King,Suit.Diamonds);
 		Card handTwoCardFive = new Card(Rank.Queen,Suit.Diamonds);
@@ -320,7 +320,7 @@ public class PokerHandTest {
 		
 		Card handTwoCardOne = new Card(Rank.Ace,Suit.Clubs);
 		Card handTwoCardTwo = new Card(Rank.Ace,Suit.Diamonds);
-		Card handTwoCardThree = new Card(Rank.Ace,Suit.Diamonds);
+		Card handTwoCardThree = new Card(Rank.Ace,Suit.Spades);
 		Card handTwoCardFour = new Card(Rank.King,Suit.Clubs);
 		Card handTwoCardFive = new Card(Rank.King,Suit.Spades);
 		PokerHand handTwo = new PokerHand(handTwoCardOne,handTwoCardTwo,handTwoCardThree,handTwoCardFour,handTwoCardFive);
@@ -430,7 +430,7 @@ public class PokerHandTest {
 	}
 	
 	@Test(expected = DuplicateCardException.class)
-	  public void testDuplicateCardException() {
+	  public void testDuplicateCardExceptionInCompare() {
 		Card handOneCardOne = new Card(Rank.Ace,Suit.Spades);
 		Card handOneCardTwo = new Card(Rank.King,Suit.Spades);
 		Card handOneCardThree = new Card(Rank.Queen,Suit.Spades);
@@ -446,6 +446,16 @@ public class PokerHandTest {
 		PokerHand handTwo = new PokerHand(handTwoCardOne,handTwoCardTwo,handTwoCardThree,handTwoCardFour,handTwoCardFive);
 		
 		handOne.compareTo(handTwo);
+	  }
+	
+	@Test(expected = DuplicateCardException.class)
+	  public void testDuplicateCardExceptioninHand() {
+		Card handOneCardOne = new Card(Rank.Ace,Suit.Spades);
+		Card handOneCardTwo = new Card(Rank.King,Suit.Spades);
+		Card handOneCardThree = new Card(Rank.Queen,Suit.Spades);
+		Card handOneCardFour = new Card(Rank.Jack,Suit.Spades);
+		Card handOneCardFive = new Card(Rank.Ace,Suit.Spades);
+		PokerHand handOne = new PokerHand(handOneCardOne,handOneCardTwo,handOneCardThree,handOneCardFour,handOneCardFive);
 	  }
 
 
