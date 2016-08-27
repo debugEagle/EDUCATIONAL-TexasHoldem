@@ -11,10 +11,6 @@ import java.util.ArrayList;
  * @author Jonathon Davis
  */
 public final class PokerHand implements Comparable<PokerHand> {
-	//Constant Methods used to calculate the value of a hand
-	private static final long STRAIGHT_FLUSH = (long) 1E16, FOUR_OF_A_KIND = (long) 1E15, FULL_HOUSE = (long) 1E14,
-			FLUSH = (long) 1E13, STRAIGHT = (long) 1E12, THREE_OF_A_KIND = (long) 1E11, TWO_PAIR = (long) 1E10,
-			PAIR = (long) 1E9, HIGH = (long) 1E8;
 	//the stored value of a hand, used for compares
 	private final long value;
 	//the cards contained in the hand
@@ -31,19 +27,19 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 */
 	public PokerHand(Card C1, Card C2, Card C3, Card C4, Card C5) {
 		//all the cards will be stored in a collection of cards,
-		
 		hand = new ArrayList<>();
 		hand.add(C1);
 		hand.add(C2);
 		hand.add(C3);
 		hand.add(C4);
 		hand.add(C5);
-		Collections.sort(hand);
+		Collections.sort(hand, Collections.reverseOrder());
 	
-		for(int i = 0; i <= hand.size(); i++){          //test every card given
-			for(int j = i+1; j < hand.size(); j++){     //except for itself
-				if(hand.get(i).equals(hand.get(j))){    //if it is equal to another card
-					throw new DuplicateCardException(); //Throw a new exception
+		//tests if there are no duplicate cards in the hand
+		for(int i = 0; i <= hand.size(); i++){
+			for(int j = i+1; j < hand.size(); j++){
+				if(hand.get(i).equals(hand.get(j))){
+					throw new DuplicateCardException(); 
 				}
 			}
 		}
@@ -126,22 +122,22 @@ public final class PokerHand implements Comparable<PokerHand> {
 		output = isStraight();
 		if(output != null){
 			if(isFlush() != null){
-				return calculateValue(output,STRAIGHT_FLUSH);
+				return calculateValue(output,PokerHandRankings.STRAIGHT_FLUSH);
 			} else {
-				return calculateValue(output,STRAIGHT);
+				return calculateValue(output,PokerHandRankings.STRAIGHT);
 			}
 		}
 		
 		//checks for flush
 		output = isFlush();
 		if(output != null){
-			return calculateValue(output,FLUSH);
+			return calculateValue(output,PokerHandRankings.FLUSH);
 		}
 		
 		//checks for of a kind
 		output = hasXOfAKind(4);
 		if(output != null){ 
-			return calculateValue(output,FOUR_OF_A_KIND);
+			return calculateValue(output,PokerHandRankings.FOUR_OF_A_KIND);
 		
 		}
 		
@@ -149,30 +145,39 @@ public final class PokerHand implements Comparable<PokerHand> {
 		output = hasXOfAKind(3);
 		if(output != null){
 			if(hasXOfAKind(2) != null){
-				return calculateValue(output,FULL_HOUSE);
+				return calculateValue(output,PokerHandRankings.FULL_HOUSE);
 			} else {
-				return calculateValue(output,THREE_OF_A_KIND);
+				return calculateValue(output,PokerHandRankings.THREE_OF_A_KIND);
 			}
 		}
 		
 		//checks for two pairs
 		output = isTwoPair();
 		if(output != null){
-			return calculateValue(output,TWO_PAIR);
+			return calculateValue(output,PokerHandRankings.TWO_PAIR);
 		}
 		
 		//checks for two of a kind
 		output = hasXOfAKind(2);
 		if(output != null){
-			return calculateValue(output,PAIR);
+			return calculateValue(output,PokerHandRankings.PAIR);
 		}
 		
-		return calculateValue(output,HIGH);
+		return calculateValue(output,PokerHandRankings.HIGH);
 	}
 	
 
-	private long calculateValue(List<Integer> output, long multiplier){
-		return -1;
+	private long calculateValue(List<Integer> cardRanks, PokerHandRankings type){
+		long multiplier = type.getValue();
+		long result = 0;
+		//for each rank add the number * the multiplier
+		//the divide the multiplier by 100
+		for(Integer rank : cardRanks){
+			result += rank * multiplier;
+			multiplier /= 100;
+		}
+		
+		return result;
 	}
 	
 	/*
@@ -210,18 +215,18 @@ public final class PokerHand implements Comparable<PokerHand> {
 		//loops through all of the cards in the hand and counts their 
 		//Occurrences by storing the number of times the occur in the frequencies
 		for(Card card : hand){
-			if(frequency[card.getRank().getValue()-1] == 0){
+			if(frequency[card.getRank().getValue()-2] == 0){
 				output.add(card.getRank().getValue());
 			}
-			frequency[card.getRank().getValue()-1]++;
+			frequency[card.getRank().getValue()-2]++;
 		}
 		
 		//loops through all of the possible frequencies
 		//then checks if any are equal to x
 		for(int i = 0; i < frequency.length; i++){
 			if(frequency[i] == x){
-				output.remove(new Integer(i));
-				output.addFirst(i);
+				output.remove(new Integer(i+2));
+				output.addFirst(i+2);
 				foundXOfAKind = true;
 			}
 		}

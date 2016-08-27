@@ -45,7 +45,7 @@ public class PokerHandTest {
 		PokerHand handTwo = new PokerHand(handTwoCardOne,handTwoCardTwo,handTwoCardThree,handTwoCardFour,handTwoCardFive);
 		
 		assertEquals(-1,handOne.compareTo(handTwo));
-		assertEquals(-1,handTwo.compareTo(handOne));
+		assertEquals(1,handTwo.compareTo(handOne));
 	}
 	
 	@Test
@@ -121,7 +121,7 @@ public class PokerHandTest {
 		Card handTwoCardTwo = new Card(Rank.Eight,Suit.Spades);
 		Card handTwoCardThree = new Card(Rank.King,Suit.Hearts);
 		Card handTwoCardFour = new Card(Rank.King,Suit.Clubs);
-		Card handTwoCardFive = new Card(Rank.Four,Suit.Diamonds);
+		Card handTwoCardFive = new Card(Rank.Four,Suit.Clubs);
 		PokerHand handTwo = new PokerHand(handTwoCardOne,handTwoCardTwo,handTwoCardThree,handTwoCardFour,handTwoCardFive);
 		
 		assertEquals(0,handOne.compareTo(handTwo));
