@@ -5,9 +5,12 @@
 package main.java;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The PokerHand class is created with five cards and can be used to compare
@@ -210,46 +213,27 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 * return null
 	 */
 	private List<Integer> hasYNumberOfXofaKind(int y, int x) {
-		// creates a new array where each index represents a cards rank, value
-		// stores the occurrences
-		int[] frequency = new int[13];
-		// creates a new Linked list to format the output
 		LinkedList<Integer> output = new LinkedList<>();
-		// this represents a list of all the other outputs that aren't an x of a kind
 		LinkedList<Integer> other = new LinkedList<>();
-		int maxFrequency = 0;
-
-		// loops through all of the cards in the hand and counts their
-		// Occurrences by storing the number of times the occur in the
-		// frequencies
-		for (Card card : hand) {
-			if (frequency[card.getRank().getValue() - 2] == 0) {
-				output.add(card.getRank().getValue());
+		int numOfY = 0;
+		//find occurrences and store them in a map
+		Map<Integer, Integer> occurrences = new HashMap<>();
+		for(Card card : hand)
+			if (occurrences.containsKey(card.getRank().getValue()))
+				occurrences.put(card.getRank().getValue(), occurrences.get(card.getRank().getValue()) + 1);
+	        else
+	        	occurrences.put(card.getRank().getValue(), 1);
+		//add the elements to the output
+		for(Integer i : occurrences.keySet())
+			if(occurrences.get(i) == x){
+				output.push(i);
+				numOfY++;
 			}
-			int temp = ++frequency[card.getRank().getValue() - 2];
-			maxFrequency = (maxFrequency < temp) ? temp : maxFrequency;
-		}
-
-		if (maxFrequency >= x) {
-			// loops through all of the possible frequencies
-			// then checks if any are equal to x
-			for (int i = 0; i < frequency.length; i++) {
-				if (frequency[i] == x) {
-					output.remove(Integer.valueOf(i + 2));
-					output.addFirst(i + 2);
-				} else if (frequency[i] >= 1) {
-					other.add(i + 2);
-					output.remove(Integer.valueOf(i + 2));
-				}
-			}
-			// checks if there were y number of x of a kinds
-			if (output.size() == y) {
-				Collections.sort(output, Collections.reverseOrder());
-				output.addAll(other);
-				return output;
-			}
-		}
-		return null;
+			else
+				other.push(i);
+		output.addAll(other);
+		return (numOfY == y)?output:null;
+		
 	}
 
 	/*
@@ -297,12 +281,10 @@ public final class PokerHand implements Comparable<PokerHand> {
 		boolean isStraight = true;
 
 		for (int i = 0; i < hand.size(); i++) {
-			if (i >= 1 && hand.get(i).getRank().getValue() + 1 != hand.get(i - 1).getRank().getValue()) {
+			if (i >= 1 && hand.get(i).getRank().getValue() + 1 != hand.get(i - 1).getRank().getValue()) 
 				isStraight = false;
-			}
-			if (hand.get(i).getRank().getValue() != aceLowStraightExample[i]) {
+			if (hand.get(i).getRank().getValue() != aceLowStraightExample[i]) 
 				isAceLow = false;
-			}
 			output.add(hand.get(i).getRank().getValue());
 		}
 
@@ -324,13 +306,10 @@ public final class PokerHand implements Comparable<PokerHand> {
 	private static boolean hasDuplicate(final List<Card> handOne, final List<Card> handTwo) {
 		// for every card in handOne check everyCard in handTwo, return true if
 		// there is a duplicate
-		for (Card cardOne : handOne) {
-			for (Card cardTwo : handTwo) {
-				if (cardOne.getRank() == cardTwo.getRank() && cardOne.getSuit() == cardTwo.getSuit()) {
+		for (Card cardOne : handOne)
+			for (Card cardTwo : handTwo)
+				if (cardOne.getRank() == cardTwo.getRank() && cardOne.getSuit() == cardTwo.getSuit())
 					return true;
-				}
-			}
-		}
 		return false;
 	}
 
@@ -341,18 +320,10 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 */
 	@Override
 	public int compareTo(PokerHand o) {
-		if (hasDuplicate(this.hand, o.hand)) {
+		if (hasDuplicate(this.hand, o.hand))
 			throw new DuplicateCardException();
-		}
 		long calc = this.value - o.value;
-
-		if (calc > 0) {
-			return 1;
-		} else if (calc < 0) {
-			return -1;
-		} else {
-			return 0;
-		}
+		return (calc >= 0)?(calc > 0)?1:0:-1;
 	}
 	
 	//The below functions are mostly just used in testing
