@@ -5,12 +5,12 @@
 package main.java;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.TreeMap;
+import static main.java.PokerHandRankings.*;
 
 /**
  * The PokerHand class is created with five cards and can be used to compare
@@ -21,10 +21,8 @@ import java.util.stream.Collectors;
  * @author Jonathon Davis
  */
 public final class PokerHand implements Comparable<PokerHand> {
-	// the stored value of a hand, used for compares
-	private final long value;
-	// the cards contained in the hand
-	private final List<Card> hand;
+	private final long value;      // the stored calculated value of the hand
+	private final List<Card> hand; // the cards contained in the hand
 
 	/**
 	 * The constructor for the class PokerHand takes in Five cards as it's input
@@ -46,30 +44,24 @@ public final class PokerHand implements Comparable<PokerHand> {
 		hand.add(C5);
 		Collections.sort(hand, Collections.reverseOrder());
 
-		// tests if there are no duplicate cards in the hand
-		// also test for invalid cards, such as ranks and suits of null
-		for (int i = 0; i < hand.size(); i++) {
-			// test for copies
-			for (int j = i + 1; j < hand.size(); j++) {
-				if (hand.get(i).equals(hand.get(j))) {
+		// tests if there are duplicate cards in the hand
+		for (int i = 0; i < hand.size(); i++)
+			for (int j = i + 1; j < hand.size(); j++)
+				if (hand.get(i).equals(hand.get(j)))
 					throw new DuplicateCardException();
-				}
-			}
-		}
 
 		// find the value of this hand and store it into the value variable
-		value = calculateValue();
+		value = findValue();
 	}
 
 	/*
 	 * Calculates the value of the hand For Example
 	 * 
-	 * 
 	 * consider the following hand [2 of spades, 2 of hearts, 3 of spades, 4 of
-	 * diamonds, 6 of hearts] is a pair, when the hand is passed to the isPair()
-	 * function it will receive [2, 6, 4, 3] Since it received an array rather
-	 * then null it knows the value is a pair, so it will multiply the first
-	 * value of the card by the constant for a pair 1E8, Then it will multiply
+	 * diamonds, 6 of hearts] is a pair, when the hand is calls 
+	 * hasXofAKind(2,1,occurrences) it will receive [2, 6, 4, 3] Since it received 
+	 * an array rather then null it knows the value is a pair, so it will multiply 
+	 * the first value of the card by the constant for a pair, 1E9, Then it will multiply
 	 * each subsequent card by 1 * 10 ^ (the last value - 2) So this hand will
 	 * be expressed as having a value of 2 * 1E9 + 6 * 1E7 + 4 * 1E5 + 3 * 1E3
 	 * This is expanded as 2,000,000,000 + 60,000,000 + 400,000 + 3000 or
@@ -77,113 +69,78 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 * 
 	 * if we had another hand, such as the highest possible hand lower than a
 	 * pair [A of spades, King of spades, Queen of spades, Jack of spades, 9 of
-	 * hearts] since this is not any special hand it is passed to the isHigh()
-	 * function and it will receive [A of null, King of null, Queen of null,
-	 * Jack of null, 9 of null] It will then start its multiplication with the
-	 * HIGH constant of 1E8 so the hand will be expressed as 14*1E8 + 13*1E6 +
-	 * 12*1E4 + 11*1E2 + 9*1E0 This is expanded as 1,400,000,000 + 13,000,000 +
-	 * 120,000 + 1,100 + 9 1,413,121,109
+	 * hearts] since this is not any special, it will calculate the values as
+	 * function and it will receive [14, 13, 12, 11, 9] It will then start 
+	 * its multiplication with the HIGH constant of 1E8 so the hand will be 
+	 * expressed as 14*1E8 + 13*1E6 + 12*1E4 + 11*1E2 + 9*1E0 This is expanded 
+	 * as 1,400,000,000 + 13,000,000 + 120,000 + 1,100 + 9 1,413,121,109
 	 * 
 	 * when the two hands are compared the value of the pair of 2s, will be
 	 * higher then the best possible high card combo 2,060,403,000 >
 	 * 1,413,121,109
-	 * 
-	 * This continues up to a royal flush [A of spades, King of spades, Queen of
-	 * spades, Jack of spades, 10 of spades] when passed to is RoyalFlush would
-	 * return [A, King, Queen, jack, 10] we would use the Straight flush
-	 * constant of 1E16 14 * 1E16 + 13 * 1E14 + 12 * 1E12 + 11 * 1E10 + 10 * 1E8
-	 * 14000000000000000 + 130000000000000 + 12000000000 + 100000000
-	 * 14,131,211,100,000,000
-	 * 
-	 * 14,131,211,100,000,000 > 2,060,403,000 > 1,413,121,109 so Royal flush
-	 * beats pair which beats high, This number is stored in a long since it is
-	 * less than a long, but large than an int Max Int Max PokerHandValue Max
-	 * Long 2,147,483,647 < 14,131,211,100,000,000 < 9,223,372,036,854,775,807
-	 * 
-	 * This works for hands of the same type as well for example [A of spades, A
-	 * of Diamonds, 2 of hearts, 3 of spades, 4 of hearts] This hand is a pair
-	 * and after passed to the isPair function, a Card[] will be returned like
-	 * this [A, 4, 3, 2] with the calculation of a pair 14 * 1E9 + 4 * 1E7 + 3 *
-	 * 1E5 + 2 * 1E3 This is expanded as 14,000,000,000 + 40,000,000 + 300,000 +
-	 * 2000 or 14,040,302,000
-	 * 
-	 * now when we compare out pair of Aces to our pair of Twos we see
-	 * 14,040,302,000 > 2,060,403,000
-	 * 
 	 * The value accurately represents that a pair of aces is larger than a pair
-	 * of twos
+	 * of twos. each subsequent tier can be represented this way with each tiers
+	 * constant increasing by a factor of 10
 	 * 
 	 */
-	private long calculateValue() {
+	private long findValue() {
 		List<Integer> output = null;
+
 		// checks for StraightFlush and Straight
 		output = isStraight();
-		if (output != null) {
-			if (isFlush() != null) {
-				return calculateHandValue(output, PokerHandRankings.STRAIGHT_FLUSH);
-			} else {
-				return calculateHandValue(output, PokerHandRankings.STRAIGHT);
-			}
-		}
+		if (output != null)
+			if (isFlush() != null)
+				return getValue(output, STRAIGHT_FLUSH);
+			else
+				return getValue(output, STRAIGHT);
 
 		// checks for flush
 		output = isFlush();
-		if (output != null) {
-			return calculateHandValue(output, PokerHandRankings.FLUSH);
-		}
+		if (output != null)
+			return getValue(output, FLUSH);
 
+		//get the occurrences of ranks to test for four, three, two of a kind
+		Map<Integer, Integer> occurrences = getFrequencies();
+		
 		// checks for four of a kind
-		output = hasYNumberOfXofaKind(1, 4);
-		if (output != null) {
-			return calculateHandValue(output, PokerHandRankings.FOUR_OF_A_KIND);
-		}
+		output = hasXofAKind(4, 1,occurrences);
+		if (output != null)
+			return getValue(output, FOUR_OF_A_KIND);
 
 		// checks for full house and 3 of a kind
-		output = hasYNumberOfXofaKind(1, 3);
-		if (output != null) {
-			if (hasYNumberOfXofaKind(1, 2) != null) {
-				return calculateHandValue(output, PokerHandRankings.FULL_HOUSE);
-			} else {
-				return calculateHandValue(output, PokerHandRankings.THREE_OF_A_KIND);
-			}
-		}
+		output = hasXofAKind(3, 1,occurrences);
+		if (output != null)
+			if (hasXofAKind(2, 1,occurrences) != null)
+				return getValue(output, FULL_HOUSE);
+			else
+				return getValue(output, THREE_OF_A_KIND);
 
 		// checks for two pairs
-		output = hasYNumberOfXofaKind(2, 2);
-		if (output != null) {
-			return calculateHandValue(output, PokerHandRankings.TWO_PAIR);
-		}
+		output = hasXofAKind(2, 2,occurrences);
+		if (output != null)
+			return getValue(output, TWO_PAIR);
 
 		// checks for two of a kind
-		output = hasYNumberOfXofaKind(1, 2);
-		if (output != null) {
-			return calculateHandValue(output, PokerHandRankings.PAIR);
-		}
+		output = hasXofAKind(2,1,occurrences);
+		if (output != null)
+			return getValue(output, PAIR);
 
 		// format output for high card
 		output = new LinkedList<>();
 		for (Card card : hand)
 			output.add(card.getRank().getValue());
 
-		return calculateHandValue(output, PokerHandRankings.HIGH);
+		return getValue(output, HIGH);
 	}
 
 	/*
-	 * This function takes the value of the cards as well as the type of hand
-	 * into consideration when it calculates the value. It iterates through the
-	 * list and multiplies it by the value of the type through each iteration
-	 * the value is decreased by a factor of 100 This would encode a value like
-	 * 14,13,12,11,9 with a type of HighCard into a number 1413121109 or
-	 * 1,413,121,109 this number would be easily comparable to a hand such as
-	 * 13,12,11,10,8 which would be encode with the type of HighCard into
-	 * 1312111008 or 1,312,111,008 where A,K,Q,J,9 = 1,413,121,109, K,Q,J,10,8 =
-	 * 1,312,111,008 and A,K,Q,J,9 > K,Q,J,10,8, 1,413,121,109 > 1,312,111,008
+	 * This function acts as a helper function to the calculateValue()
+	 * and performs the arithmetic to convert the hand into a long value
+	 * The process is described more in the calculateValue notes
 	 */
-	private long calculateHandValue(List<Integer> cardRanks, PokerHandRankings type) {
+	private long getValue(List<Integer> cardRanks, PokerHandRankings type) {
 		long multiplier = type.getValue();
 		long result = 0;
-		// for each rank add the number * the multiplier
-		// the divide the multiplier by 100
 		for (Integer rank : cardRanks) {
 			result += rank * multiplier;
 			multiplier /= 100;
@@ -192,9 +149,9 @@ public final class PokerHand implements Comparable<PokerHand> {
 	}
 
 	/*
-	 * Returns a formatted card array if the hand is has an X of a kind, null
-	 * otherwise The format will be from highest to lowest, starting with the X
-	 * of a kind For example
+	 * X = number of occurrences needed: example 3 of a kind
+	 * Y= number of times X needs to occur: example 2 pair
+	 * occurrences = formated map of rank as key occurrences as value
 	 * 
 	 * when y is 1 and x is 4 then the method looks for a four of a kind when y
 	 * is 2 and x is 2 then the method looks for 2 pairs when y is 1 and x is 3
@@ -205,35 +162,37 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 * 
 	 * when y = 1 x = 2 [3 of Spades, 3 of Diamonds, 3 of Hearts, 3 of Clubs, 10
 	 * of Spades] would return null
-	 * 
-	 * when y= 1 x = 2 [3 of Spades, 3 of Diamonds, 6 of Hearts, 7 of Clubs, 10
-	 * of Spades] would return [3, 10, 7, 6]
-	 * 
-	 * [J of Spades, 6 of Spades, A of Spades, 5 of Spades, 2 of Spades] would
-	 * return null
 	 */
-	private List<Integer> hasYNumberOfXofaKind(int y, int x) {
-		LinkedList<Integer> output = new LinkedList<>();
-		LinkedList<Integer> other = new LinkedList<>();
+	private List<Integer> hasXofAKind(int x, int y, Map<Integer, Integer> occurrences) {
+		LinkedList<Integer> output = new LinkedList<>(); //stores output
+		LinkedList<Integer> other = new LinkedList<>(); //stores highcards
 		int numOfY = 0;
-		//find occurrences and store them in a map
-		Map<Integer, Integer> occurrences = new HashMap<>();
+		//add the elements to the output
+		for(Map.Entry<Integer,Integer> entry : occurrences.entrySet())
+			if(entry.getValue() == x){
+				output.push(entry.getKey());
+				numOfY++;
+			}
+			else {
+				other.push(entry.getKey());
+			}
+		//combine the two lists
+		output.addAll(other);
+		return (numOfY == y)?output:null;
+	}
+	
+	/*
+	 * finds the occurrences of ranks and stores them in a map
+	 * used in the hasXofAKind method
+	 */
+	private Map<Integer,Integer> getFrequencies(){
+		Map<Integer, Integer> occurrences = new TreeMap<>();
 		for(Card card : hand)
 			if (occurrences.containsKey(card.getRank().getValue()))
 				occurrences.put(card.getRank().getValue(), occurrences.get(card.getRank().getValue()) + 1);
 	        else
 	        	occurrences.put(card.getRank().getValue(), 1);
-		//add the elements to the output
-		for(Integer i : occurrences.keySet())
-			if(occurrences.get(i) == x){
-				output.push(i);
-				numOfY++;
-			}
-			else
-				other.push(i);
-		output.addAll(other);
-		return (numOfY == y)?output:null;
-		
+		return occurrences;
 	}
 
 	/*
@@ -253,9 +212,8 @@ public final class PokerHand implements Comparable<PokerHand> {
 		Suit flushSuit = hand.get(0).getSuit();
 		// tests if all cards are of the same suit
 		for (Card card : hand) {
-			if (card.getSuit() != flushSuit) {
+			if (card.getSuit() != flushSuit)
 				return null;
-			}
 			output.add(card.getRank().getValue());
 		}
 		// return the output if the hand is a flush
@@ -275,7 +233,6 @@ public final class PokerHand implements Comparable<PokerHand> {
 	private List<Integer> isStraight() {
 		// linked list to format the output
 		LinkedList<Integer> output = new LinkedList<>();
-		// check for the ace low special case
 		int[] aceLowStraightExample = new int[] { 14, 5, 4, 3, 2 };
 		boolean isAceLow = true;
 		boolean isStraight = true;
@@ -333,9 +290,8 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (obj != null && obj instanceof PokerHand && obj.hashCode() == this.hashCode()) {
+		if (obj != null && obj instanceof PokerHand && obj.hashCode() == this.hashCode())
 			return true;
-		}
 		return false;
 	}
 
