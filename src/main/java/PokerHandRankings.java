@@ -1,3 +1,7 @@
+/**
+ * defines several constants which will be used by the PokerHand class to calculate
+ * the value of a PokerHand
+ */
 package main.java;
 /**
  * This class contains all the different types of valid poker hand combinations

@@ -1,3 +1,6 @@
+/**
+ * he Suit enumerated class represents the suit of cards in an average playing card deck.
+ */
 package main.java;
 /**
  * The Suit enumerated class represents the suit of cards in an average playing card deck.

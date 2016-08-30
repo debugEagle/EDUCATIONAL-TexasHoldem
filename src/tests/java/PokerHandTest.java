@@ -1,3 +1,6 @@
+/**
+ * Tests the PokerHand class for a variety of cases
+ */
 package tests.java;
 
 import static org.junit.Assert.*;
@@ -18,6 +21,19 @@ import main.java.Suit;
  *
  */
 public class PokerHandTest {
+	
+	@Test
+	public void testToString(){
+		Card handOneCardOne = new Card(Rank.Ace, Suit.Hearts);
+		Card handOneCardTwo = new Card(Rank.King, Suit.Hearts);
+		Card handOneCardThree = new Card(Rank.Queen, Suit.Hearts);
+		Card handOneCardFour = new Card(Rank.Eight, Suit.Hearts);
+		Card handOneCardFive = new Card(Rank.Six, Suit.Hearts);
+		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour,
+				handOneCardFive);
+		
+		assertEquals("PokerHand [hand=[Ace of Hearts, King of Hearts, Queen of Hearts, Eight of Hearts, Six of Hearts]]",handOne.toString());
+	}
 	
 	@Test
 	public void sortVerySimilarPokerHands() {
@@ -66,6 +82,10 @@ public class PokerHandTest {
 		assertEquals(true, allHands.get(1).equals(handThree));
 		assertEquals(true, allHands.get(2).equals(handTwo));
 		assertEquals(true, allHands.get(3).equals(handOne));
+		assertEquals(false, allHands.get(3).equals(handFour));
+		assertEquals(false, allHands.get(2).equals(handThree));
+		assertEquals(false, allHands.get(1).equals(handTwo));
+		assertEquals(false, allHands.get(0).equals(handOne));
 	}
 
 	@Test
@@ -669,7 +689,7 @@ public class PokerHandTest {
 		Card handOneCardTwo = new Card(Rank.King, Suit.Spades);
 		Card handOneCardThree = new Card(Rank.Queen, Suit.Spades);
 		Card handOneCardFour = new Card(Rank.Jack, Suit.Spades);
-		Card handOneCardFive = new Card(Rank.Ten, Suit.Spades);
+		Card handOneCardFive = new Card(Rank.Nine, Suit.Spades);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour,
 				handOneCardFive);
 
@@ -694,6 +714,8 @@ public class PokerHandTest {
 		assertEquals(true, handTwo.equals(handThree));
 		assertEquals(true, handThree.equals(handTwo));
 		assertEquals(false, handThree.equals(handOne));
+		assertEquals(false, handThree.equals(null));
+		assertEquals(false, handThree.equals(new Integer(4)));
 	}
 
 	@Test(expected = DuplicateCardException.class)
@@ -723,6 +745,7 @@ public class PokerHandTest {
 		Card handOneCardFour = new Card(Rank.Jack, Suit.Spades);
 		Card handOneCardFive = new Card(Rank.Ace, Suit.Spades);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour, handOneCardFive);
+		fail();
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -733,6 +756,7 @@ public class PokerHandTest {
 		Card handOneCardFour = new Card(Rank.Jack, Suit.Spades);
 		Card handOneCardFive = new Card(Rank.Ace, Suit.Diamonds);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour, handOneCardFive);
+		fail();
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -743,6 +767,7 @@ public class PokerHandTest {
 		Card handOneCardFour = new Card(Rank.Jack, Suit.Spades);
 		Card handOneCardFive = new Card(Rank.Ace, Suit.Diamonds);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour, handOneCardFive);
+		fail();
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -752,6 +777,7 @@ public class PokerHandTest {
 		Card handOneCardFour = new Card(Rank.Jack, Suit.Spades);
 		Card handOneCardFive = new Card(Rank.Ace, Suit.Diamonds);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, null, handOneCardFour, handOneCardFive);
+		fail();
 	}
 
 }

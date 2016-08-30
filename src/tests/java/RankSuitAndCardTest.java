@@ -15,7 +15,7 @@ import main.java.Suit;
  */
 
 /**
- * @author metro
+ * @author Jonathon Davis
  *
  */
 public class RankSuitAndCardTest {
