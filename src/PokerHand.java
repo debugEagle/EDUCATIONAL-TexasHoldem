@@ -2,15 +2,14 @@
  * A class used to construct PokerHand Objects which can be used to compare
  * to other PokerHands
  */
-package main.java;
 
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import static main.java.PokerHandRankings.*;
 
 /**
  * The PokerHand class is created with five cards and can be used to compare
@@ -90,14 +89,14 @@ public final class PokerHand implements Comparable<PokerHand> {
 		output = isStraight();
 		if (output != null)
 			if (isFlush() != null)
-				return getValue(output, STRAIGHT_FLUSH);
+				return getValue(output, PokerHandRankings.STRAIGHT_FLUSH);
 			else
-				return getValue(output, STRAIGHT);
+				return getValue(output, PokerHandRankings.STRAIGHT);
 
 		// checks for flush
 		output = isFlush();
 		if (output != null)
-			return getValue(output, FLUSH);
+			return getValue(output, PokerHandRankings.FLUSH);
 
 		//get the occurrences of ranks to test for four, three, two of a kind
 		Map<Integer, Integer> occurrences = getFrequencies();
@@ -105,32 +104,32 @@ public final class PokerHand implements Comparable<PokerHand> {
 		// checks for four of a kind
 		output = hasXofAKind(4, 1,occurrences);
 		if (output != null)
-			return getValue(output, FOUR_OF_A_KIND);
+			return getValue(output, PokerHandRankings.FOUR_OF_A_KIND);
 
 		// checks for full house and 3 of a kind
 		output = hasXofAKind(3, 1,occurrences);
 		if (output != null)
 			if (hasXofAKind(2, 1,occurrences) != null)
-				return getValue(output, FULL_HOUSE);
+				return getValue(output, PokerHandRankings.FULL_HOUSE);
 			else
-				return getValue(output, THREE_OF_A_KIND);
+				return getValue(output, PokerHandRankings.THREE_OF_A_KIND);
 
 		// checks for two pairs
 		output = hasXofAKind(2, 2,occurrences);
 		if (output != null)
-			return getValue(output, TWO_PAIR);
+			return getValue(output, PokerHandRankings.TWO_PAIR);
 
 		// checks for two of a kind
 		output = hasXofAKind(2,1,occurrences);
 		if (output != null)
-			return getValue(output, PAIR);
+			return getValue(output, PokerHandRankings.PAIR);
 
 		// format output for high card
 		output = new LinkedList<>();
 		for (Card card : hand)
 			output.add(card.getRank().getValue());
 
-		return getValue(output, HIGH);
+		return getValue(output, PokerHandRankings.HIGH);
 	}
 
 	/*

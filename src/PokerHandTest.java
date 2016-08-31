@@ -1,7 +1,7 @@
 /**
  * Tests the PokerHand class for a variety of cases
  */
-package tests.java;
+
 
 import static org.junit.Assert.*;
 
@@ -9,12 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import org.junit.Test;
-
-import main.java.Card;
-import main.java.DuplicateCardException;
-import main.java.PokerHand;
-import main.java.Rank;
-import main.java.Suit;
 
 /**
  * @author Jonathon Davis
@@ -102,8 +96,8 @@ public class PokerHandTest {
 		PokerHand handTwo = new PokerHand(handTwoCardOne, handTwoCardTwo, handTwoCardThree, handTwoCardFour,
 				handTwoCardFive);
 
-		Card handThreeCardOne = new Card(Rank.Duece, Suit.Diamonds);
-		Card handThreeCardTwo = new Card(Rank.Duece, Suit.Hearts);
+		Card handThreeCardOne = new Card(Rank.Deuce, Suit.Diamonds);
+		Card handThreeCardTwo = new Card(Rank.Deuce, Suit.Hearts);
 		Card handThreeCardThree = new Card(Rank.Three, Suit.Spades);
 		Card handThreeCardFour = new Card(Rank.Three, Suit.Clubs);
 		Card handThreeCardFive = new Card(Rank.Three, Suit.Hearts);
@@ -136,7 +130,7 @@ public class PokerHandTest {
 	@Test
 	public void sortPokerHandsTest() {
 		// straight flush
-		Card handOneCardOne = new Card(Rank.Duece, Suit.Hearts);
+		Card handOneCardOne = new Card(Rank.Deuce, Suit.Hearts);
 		Card handOneCardTwo = new Card(Rank.Three, Suit.Hearts);
 		Card handOneCardThree = new Card(Rank.Four, Suit.Hearts);
 		Card handOneCardFour = new Card(Rank.Five, Suit.Hearts);
@@ -167,7 +161,7 @@ public class PokerHandTest {
 		Card handFourCardTwo = new Card(Rank.Five, Suit.Clubs);
 		Card handFourCardThree = new Card(Rank.Four, Suit.Clubs);
 		Card handFourCardFour = new Card(Rank.Three, Suit.Clubs);
-		Card handFourCardFive = new Card(Rank.Duece, Suit.Clubs);
+		Card handFourCardFive = new Card(Rank.Deuce, Suit.Clubs);
 		PokerHand handFour = new PokerHand(handFourCardOne, handFourCardTwo, handFourCardThree, handFourCardFour,
 				handFourCardFive);
 
@@ -214,8 +208,8 @@ public class PokerHandTest {
 		PokerHand handTwo = new PokerHand(handSevenCardOne, handSevenCardTwo, handSevenCardThree, handSevenCardFour,
 				handSevenCardFive);
 
-		Card handEightCardOne = new Card(Rank.Duece, Suit.Clubs);
-		Card handEightCardTwo = new Card(Rank.Duece, Suit.Diamonds);
+		Card handEightCardOne = new Card(Rank.Deuce, Suit.Clubs);
+		Card handEightCardTwo = new Card(Rank.Deuce, Suit.Diamonds);
 		Card handEightCardThree = new Card(Rank.Three, Suit.Diamonds);
 		Card handEightCardFour = new Card(Rank.Four, Suit.Diamonds);
 		Card handEightCardFive = new Card(Rank.Five, Suit.Diamonds);
@@ -246,8 +240,8 @@ public class PokerHandTest {
 
 	@Test
 	public void testPairBeatsHigh() {
-		Card handOneCardOne = new Card(Rank.Duece, Suit.Clubs);
-		Card handOneCardTwo = new Card(Rank.Duece, Suit.Diamonds);
+		Card handOneCardOne = new Card(Rank.Deuce, Suit.Clubs);
+		Card handOneCardTwo = new Card(Rank.Deuce, Suit.Diamonds);
 		Card handOneCardThree = new Card(Rank.Three, Suit.Diamonds);
 		Card handOneCardFour = new Card(Rank.Four, Suit.Diamonds);
 		Card handOneCardFive = new Card(Rank.Five, Suit.Diamonds);
@@ -268,8 +262,8 @@ public class PokerHandTest {
 
 	@Test
 	public void testPairLosesToPairHigh() {
-		Card handOneCardOne = new Card(Rank.Duece, Suit.Clubs);
-		Card handOneCardTwo = new Card(Rank.Duece, Suit.Diamonds);
+		Card handOneCardOne = new Card(Rank.Deuce, Suit.Clubs);
+		Card handOneCardTwo = new Card(Rank.Deuce, Suit.Diamonds);
 		Card handOneCardThree = new Card(Rank.Three, Suit.Diamonds);
 		Card handOneCardFour = new Card(Rank.Four, Suit.Diamonds);
 		Card handOneCardFive = new Card(Rank.Five, Suit.Diamonds);
@@ -293,7 +287,7 @@ public class PokerHandTest {
 		Card handOneCardOne = new Card(Rank.Eight, Suit.Hearts);
 		Card handOneCardTwo = new Card(Rank.Eight, Suit.Spades);
 		Card handOneCardThree = new Card(Rank.King, Suit.Clubs);
-		Card handOneCardFour = new Card(Rank.Duece, Suit.Clubs);
+		Card handOneCardFour = new Card(Rank.Deuce, Suit.Clubs);
 		Card handOneCardFive = new Card(Rank.Six, Suit.Clubs);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour,
 				handOneCardFive);
@@ -301,7 +295,7 @@ public class PokerHandTest {
 		Card handTwoCardOne = new Card(Rank.Eight, Suit.Clubs);
 		Card handTwoCardTwo = new Card(Rank.Eight, Suit.Diamonds);
 		Card handTwoCardThree = new Card(Rank.King, Suit.Diamonds);
-		Card handTwoCardFour = new Card(Rank.Duece, Suit.Diamonds);
+		Card handTwoCardFour = new Card(Rank.Deuce, Suit.Diamonds);
 		Card handTwoCardFive = new Card(Rank.Six, Suit.Diamonds);
 		PokerHand handTwo = new PokerHand(handTwoCardOne, handTwoCardTwo, handTwoCardThree, handTwoCardFour,
 				handTwoCardFive);
@@ -312,8 +306,8 @@ public class PokerHandTest {
 
 	@Test
 	public void testTwoPairBeatsPair() {
-		Card handOneCardOne = new Card(Rank.Duece, Suit.Clubs);
-		Card handOneCardTwo = new Card(Rank.Duece, Suit.Diamonds);
+		Card handOneCardOne = new Card(Rank.Deuce, Suit.Clubs);
+		Card handOneCardTwo = new Card(Rank.Deuce, Suit.Diamonds);
 		Card handOneCardThree = new Card(Rank.Three, Suit.Diamonds);
 		Card handOneCardFour = new Card(Rank.Three, Suit.Clubs);
 		Card handOneCardFive = new Card(Rank.Four, Suit.Diamonds);
@@ -334,8 +328,8 @@ public class PokerHandTest {
 
 	@Test
 	public void testTwoPairLosesToTwoPairHigh() {
-		Card handOneCardOne = new Card(Rank.Duece, Suit.Clubs);
-		Card handOneCardTwo = new Card(Rank.Duece, Suit.Diamonds);
+		Card handOneCardOne = new Card(Rank.Deuce, Suit.Clubs);
+		Card handOneCardTwo = new Card(Rank.Deuce, Suit.Diamonds);
 		Card handOneCardThree = new Card(Rank.Three, Suit.Diamonds);
 		Card handOneCardFour = new Card(Rank.Three, Suit.Clubs);
 		Card handOneCardFive = new Card(Rank.Four, Suit.Diamonds);
@@ -378,9 +372,9 @@ public class PokerHandTest {
 
 	@Test
 	public void testThreeOfAKindBeatsTwoPair() {
-		Card handOneCardOne = new Card(Rank.Duece, Suit.Clubs);
-		Card handOneCardTwo = new Card(Rank.Duece, Suit.Diamonds);
-		Card handOneCardThree = new Card(Rank.Duece, Suit.Spades);
+		Card handOneCardOne = new Card(Rank.Deuce, Suit.Clubs);
+		Card handOneCardTwo = new Card(Rank.Deuce, Suit.Diamonds);
+		Card handOneCardThree = new Card(Rank.Deuce, Suit.Spades);
 		Card handOneCardFour = new Card(Rank.Three, Suit.Clubs);
 		Card handOneCardFive = new Card(Rank.Four, Suit.Diamonds);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour,
@@ -400,9 +394,9 @@ public class PokerHandTest {
 
 	@Test
 	public void testThreeOfAKindLosesToThreeOfAKindHigh() {
-		Card handOneCardOne = new Card(Rank.Duece, Suit.Clubs);
-		Card handOneCardTwo = new Card(Rank.Duece, Suit.Diamonds);
-		Card handOneCardThree = new Card(Rank.Duece, Suit.Spades);
+		Card handOneCardOne = new Card(Rank.Deuce, Suit.Clubs);
+		Card handOneCardTwo = new Card(Rank.Deuce, Suit.Diamonds);
+		Card handOneCardThree = new Card(Rank.Deuce, Suit.Spades);
 		Card handOneCardFour = new Card(Rank.Three, Suit.Clubs);
 		Card handOneCardFive = new Card(Rank.Four, Suit.Diamonds);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour,
@@ -425,7 +419,7 @@ public class PokerHandTest {
 		Card handOneCardOne = new Card(Rank.Five, Suit.Clubs);
 		Card handOneCardTwo = new Card(Rank.Four, Suit.Diamonds);
 		Card handOneCardThree = new Card(Rank.Three, Suit.Spades);
-		Card handOneCardFour = new Card(Rank.Duece, Suit.Clubs);
+		Card handOneCardFour = new Card(Rank.Deuce, Suit.Clubs);
 		Card handOneCardFive = new Card(Rank.Ace, Suit.Diamonds);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour,
 				handOneCardFive);
@@ -448,7 +442,7 @@ public class PokerHandTest {
 		Card handOneCardTwo = new Card(Rank.Five, Suit.Diamonds);
 		Card handOneCardThree = new Card(Rank.Four, Suit.Spades);
 		Card handOneCardFour = new Card(Rank.Three, Suit.Clubs);
-		Card handOneCardFive = new Card(Rank.Duece, Suit.Diamonds);
+		Card handOneCardFive = new Card(Rank.Deuce, Suit.Diamonds);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour,
 				handOneCardFive);
 
@@ -492,7 +486,7 @@ public class PokerHandTest {
 		Card handOneCardTwo = new Card(Rank.Five, Suit.Clubs);
 		Card handOneCardThree = new Card(Rank.Four, Suit.Clubs);
 		Card handOneCardFour = new Card(Rank.Three, Suit.Clubs);
-		Card handOneCardFive = new Card(Rank.Duece, Suit.Clubs);
+		Card handOneCardFive = new Card(Rank.Deuce, Suit.Clubs);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour,
 				handOneCardFive);
 
@@ -514,7 +508,7 @@ public class PokerHandTest {
 		Card handOneCardTwo = new Card(Rank.Five, Suit.Clubs);
 		Card handOneCardThree = new Card(Rank.Four, Suit.Clubs);
 		Card handOneCardFour = new Card(Rank.Three, Suit.Clubs);
-		Card handOneCardFive = new Card(Rank.Duece, Suit.Clubs);
+		Card handOneCardFive = new Card(Rank.Deuce, Suit.Clubs);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour,
 				handOneCardFive);
 
@@ -554,9 +548,9 @@ public class PokerHandTest {
 
 	@Test
 	public void testFullHouseBeatsFlush() {
-		Card handOneCardOne = new Card(Rank.Duece, Suit.Spades);
-		Card handOneCardTwo = new Card(Rank.Duece, Suit.Diamonds);
-		Card handOneCardThree = new Card(Rank.Duece, Suit.Clubs);
+		Card handOneCardOne = new Card(Rank.Deuce, Suit.Spades);
+		Card handOneCardTwo = new Card(Rank.Deuce, Suit.Diamonds);
+		Card handOneCardThree = new Card(Rank.Deuce, Suit.Clubs);
 		Card handOneCardFour = new Card(Rank.Three, Suit.Clubs);
 		Card handOneCardFive = new Card(Rank.Three, Suit.Spades);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour,
@@ -576,9 +570,9 @@ public class PokerHandTest {
 
 	@Test
 	public void testFullHouseLosesFullHouseHigh() {
-		Card handOneCardOne = new Card(Rank.Duece, Suit.Spades);
-		Card handOneCardTwo = new Card(Rank.Duece, Suit.Diamonds);
-		Card handOneCardThree = new Card(Rank.Duece, Suit.Clubs);
+		Card handOneCardOne = new Card(Rank.Deuce, Suit.Spades);
+		Card handOneCardTwo = new Card(Rank.Deuce, Suit.Diamonds);
+		Card handOneCardThree = new Card(Rank.Deuce, Suit.Clubs);
 		Card handOneCardFour = new Card(Rank.Three, Suit.Clubs);
 		Card handOneCardFive = new Card(Rank.Three, Suit.Spades);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour,
@@ -598,10 +592,10 @@ public class PokerHandTest {
 
 	@Test
 	public void testFourOfAKindBeatsFullHouse() {
-		Card handOneCardOne = new Card(Rank.Duece, Suit.Spades);
-		Card handOneCardTwo = new Card(Rank.Duece, Suit.Diamonds);
-		Card handOneCardThree = new Card(Rank.Duece, Suit.Clubs);
-		Card handOneCardFour = new Card(Rank.Duece, Suit.Hearts);
+		Card handOneCardOne = new Card(Rank.Deuce, Suit.Spades);
+		Card handOneCardTwo = new Card(Rank.Deuce, Suit.Diamonds);
+		Card handOneCardThree = new Card(Rank.Deuce, Suit.Clubs);
+		Card handOneCardFour = new Card(Rank.Deuce, Suit.Hearts);
 		Card handOneCardFive = new Card(Rank.Three, Suit.Spades);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour,
 				handOneCardFive);
@@ -620,10 +614,10 @@ public class PokerHandTest {
 
 	@Test
 	public void testFourOfAKindLosestoFourOfAKindHigh() {
-		Card handOneCardOne = new Card(Rank.Duece, Suit.Spades);
-		Card handOneCardTwo = new Card(Rank.Duece, Suit.Diamonds);
-		Card handOneCardThree = new Card(Rank.Duece, Suit.Clubs);
-		Card handOneCardFour = new Card(Rank.Duece, Suit.Hearts);
+		Card handOneCardOne = new Card(Rank.Deuce, Suit.Spades);
+		Card handOneCardTwo = new Card(Rank.Deuce, Suit.Diamonds);
+		Card handOneCardThree = new Card(Rank.Deuce, Suit.Clubs);
+		Card handOneCardFour = new Card(Rank.Deuce, Suit.Hearts);
 		Card handOneCardFive = new Card(Rank.Three, Suit.Spades);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour,
 				handOneCardFive);
@@ -642,7 +636,7 @@ public class PokerHandTest {
 
 	@Test
 	public void testStraightFlushBeatsFourOfAKind() {
-		Card handOneCardOne = new Card(Rank.Duece, Suit.Spades);
+		Card handOneCardOne = new Card(Rank.Deuce, Suit.Spades);
 		Card handOneCardTwo = new Card(Rank.Three, Suit.Spades);
 		Card handOneCardThree = new Card(Rank.Four, Suit.Spades);
 		Card handOneCardFour = new Card(Rank.Five, Suit.Spades);
@@ -664,7 +658,7 @@ public class PokerHandTest {
 
 	@Test
 	public void testStraightFlushLosesToStraightFlushHigh() {
-		Card handOneCardOne = new Card(Rank.Duece, Suit.Spades);
+		Card handOneCardOne = new Card(Rank.Deuce, Suit.Spades);
 		Card handOneCardTwo = new Card(Rank.Three, Suit.Spades);
 		Card handOneCardThree = new Card(Rank.Four, Suit.Spades);
 		Card handOneCardFour = new Card(Rank.Five, Suit.Spades);
@@ -686,7 +680,7 @@ public class PokerHandTest {
 
 	@Test
 	public void testAceLowStraightFlushLosesToStraightFlushHigh() {
-		Card handOneCardOne = new Card(Rank.Duece, Suit.Spades);
+		Card handOneCardOne = new Card(Rank.Deuce, Suit.Spades);
 		Card handOneCardTwo = new Card(Rank.Three, Suit.Spades);
 		Card handOneCardThree = new Card(Rank.Four, Suit.Spades);
 		Card handOneCardFour = new Card(Rank.Five, Suit.Spades);
