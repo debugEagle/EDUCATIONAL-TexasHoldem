@@ -1,7 +1,8 @@
+package tests;
 /**
  * Tests the PokerHand class for a variety of cases
  */
-package tests.java;
+
 
 import static org.junit.Assert.*;
 
@@ -10,11 +11,11 @@ import java.util.Collections;
 
 import org.junit.Test;
 
-import main.java.Card;
-import main.java.DuplicateCardException;
-import main.java.PokerHand;
-import main.java.Rank;
-import main.java.Suit;
+import model.Card;
+import model.DuplicateCardException;
+import model.PokerHand;
+import model.Rank;
+import model.Suit;
 
 /**
  * @author Jonathon Davis
@@ -761,25 +762,6 @@ public class PokerHandTest {
 		assertEquals(false, handThree.equals(handOne));
 		assertEquals(false, handThree.equals(null));
 		assertEquals(false, handThree.equals(Integer.valueOf(4)));
-	}
-
-	@Test(expected = DuplicateCardException.class)
-	public void testDuplicateCardExceptionInCompare() {
-		Card handOneCardOne = new Card(Rank.Ace, Suit.Spades);
-		Card handOneCardTwo = new Card(Rank.King, Suit.Spades);
-		Card handOneCardThree = new Card(Rank.Queen, Suit.Spades);
-		Card handOneCardFour = new Card(Rank.Jack, Suit.Spades);
-		Card handOneCardFive = new Card(Rank.Ten, Suit.Spades);
-		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour, handOneCardFive);
-
-		Card handTwoCardOne = new Card(Rank.Ace, Suit.Hearts);
-		Card handTwoCardTwo = new Card(Rank.King, Suit.Hearts);
-		Card handTwoCardThree = new Card(Rank.Queen, Suit.Hearts);
-		Card handTwoCardFour = new Card(Rank.Jack, Suit.Hearts);
-		Card handTwoCardFive = new Card(Rank.Ten, Suit.Spades);
-		PokerHand handTwo = new PokerHand(handTwoCardOne, handTwoCardTwo, handTwoCardThree, handTwoCardFour, handTwoCardFive);
-
-		handOne.compareTo(handTwo);
 	}
 
 	@Test(expected = DuplicateCardException.class)

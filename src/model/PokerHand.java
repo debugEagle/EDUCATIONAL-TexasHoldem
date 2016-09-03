@@ -2,15 +2,17 @@
  * A class used to construct PokerHand Objects which can be used to compare
  * to other PokerHands
  */
-package main.java;
+package model;
 
 import java.util.Collections;
 import java.util.LinkedList;
+
+import static model.PokerHandRankings.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import static main.java.PokerHandRankings.*;
 
 /**
  * The PokerHand class is created with five cards and can be used to compare
@@ -256,29 +258,12 @@ public final class PokerHand implements Comparable<PokerHand> {
 	}
 
 	/*
-	 * This function compares two hands and checks to see if these hands contain any duplicate
-	 * cards. If one hand contains an Ace of Spades and another hand contains an Ace of spades
-	 * Then calculating, or comparing them will be difficult
-	 */
-	private static boolean hasDuplicate(final List<Card> handOne, final List<Card> handTwo) {
-		// for every card in handOne check everyCard in handTwo, return true if
-		// there is a duplicate
-		for (Card cardOne : handOne)
-			for (Card cardTwo : handTwo)
-				if (cardOne.getRank() == cardTwo.getRank() && cardOne.getSuit() == cardTwo.getSuit())
-					return true;
-		return false;
-	}
-
-	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
 	public int compareTo(PokerHand o) {
-		if (hasDuplicate(this.hand, o.hand))
-			throw new DuplicateCardException();
 		long calc = this.value - o.value;
 		return (calc >= 0)?(calc > 0)?1:0:-1;
 	}

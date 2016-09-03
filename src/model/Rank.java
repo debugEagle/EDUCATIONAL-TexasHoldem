@@ -2,7 +2,7 @@
  * The Rank enum is used to define several constants which represent
  * The ranks in a normal set of playing cards
  */
-package main.java;
+package model;
 /**
  * The Rank enumerated class represents the value of cards in an average playing card deck.
  * The class contains 13 ranks from Deuce to Ace in which it assigns values from 2 to 14 for each rank.

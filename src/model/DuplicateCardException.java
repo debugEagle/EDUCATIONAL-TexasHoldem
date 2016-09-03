@@ -1,7 +1,7 @@
 /**
  * Defines the runtime exception DuplicateCardException 
  */
-package main.java;
+package model;
 /**
  * A DuplicateCardException should be thrown whenever a duplicate card is found
  * in the PokerHand simulation

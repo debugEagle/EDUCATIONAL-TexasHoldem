@@ -2,7 +2,7 @@
  * defines several constants which will be used by the PokerHand class to calculate
  * the value of a PokerHand
  */
-package main.java;
+package model;
 /**
  * This class contains all the different types of valid poker hand combinations
  * as well as stores an associated value with each constant

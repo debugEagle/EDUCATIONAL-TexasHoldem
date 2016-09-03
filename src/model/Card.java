@@ -2,7 +2,7 @@
  * A class used to construct Card objects which represents 
  * 1 of 52 playing cards
  */
-package main.java;
+package model;
 
 /**
  * The Card class creates objects that represent cards found in an average

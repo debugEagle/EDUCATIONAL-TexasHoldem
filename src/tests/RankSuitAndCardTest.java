@@ -1,4 +1,5 @@
-package tests.java;
+package tests;
+
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -6,9 +7,9 @@ import java.util.Collections;
 
 import org.junit.Test;
 
-import main.java.Card;
-import main.java.Rank;
-import main.java.Suit;
+import model.Card;
+import model.Rank;
+import model.Suit;
 
 /**
  * 
