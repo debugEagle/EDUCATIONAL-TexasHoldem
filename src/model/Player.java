@@ -19,9 +19,14 @@ public class Player {
 	private List<Card> cCard;
 	// The amount of cash this player has
 	private int cash;
+	//last best hand
+	private PokerHand lastBest;
+	//name
+	private final String name;
 
-	public Player() {
+	public Player(String name) {
 		cash = 100;
+		this.name = name;
 	}
 
 	public PokerHand getBestHand() {
@@ -33,8 +38,8 @@ public class Player {
 					allPossibleHands.add(new PokerHand(pCards.get(0), pCards.get(1), cCard.get(i), cCard.get(j), cCard.get(k)));
 
 		Collections.sort(allPossibleHands, Collections.reverseOrder());
-
-		return allPossibleHands.get(0);
+		lastBest = allPossibleHands.get(0);
+		return lastBest;
 	}
 
 	/**
@@ -68,5 +73,18 @@ public class Player {
 	public void setCash(int cash) {
 		this.cash = cash;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder output = new StringBuilder();
+		output.append("Player " + name + ": $" + cash + ".0 - " + pCards.get(0) + " " + pCards.get(1) + System.lineSeparator());
+		output.append("\t Best Hand: " + lastBest + " - " + lastBest.getRank().name + System.lineSeparator());
+		return output.toString();
+	}
+	
+	
 
 }

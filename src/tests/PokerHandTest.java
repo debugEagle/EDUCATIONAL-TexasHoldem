@@ -26,14 +26,14 @@ public class PokerHandTest {
 	@Test
 	public void testToString(){
 		Card handOneCardOne = new Card(Rank.Ace, Suit.Hearts);
-		Card handOneCardTwo = new Card(Rank.King, Suit.Hearts);
+		Card handOneCardTwo = new Card(Rank.King, Suit.Spades);
 		Card handOneCardThree = new Card(Rank.Queen, Suit.Hearts);
-		Card handOneCardFour = new Card(Rank.Eight, Suit.Hearts);
-		Card handOneCardFive = new Card(Rank.Six, Suit.Hearts);
+		Card handOneCardFour = new Card(Rank.Jack, Suit.Diamonds);
+		Card handOneCardFive = new Card(Rank.Six, Suit.Clubs);
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour,
 				handOneCardFive);
 		
-		assertEquals("PokerHand [hand=[Ace of Hearts, King of Hearts, Queen of Hearts, Eight of Hearts, Six of Hearts]]",handOne.toString());
+		assertEquals("PokerHand [hand=[A♥, K♠, Q♥, J♦, 6♣]]",handOne.toString());
 	}
 	
 	@Test

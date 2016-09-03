@@ -25,6 +25,7 @@ import java.util.TreeMap;
 public final class PokerHand implements Comparable<PokerHand> {
 	private final long value;      // the stored calculated value of the hand
 	private final List<Card> hand; // the cards contained in the hand
+	private PokerHandRankings rank;
 
 	/**
 	 * The constructor for the class PokerHand takes in Five cards as it's input
@@ -141,7 +142,8 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 * The process is described more in the calculateValue notes
 	 */
 	private long getValue(List<Integer> cardRanks, PokerHandRankings type) {
-		long multiplier = type.getValue();
+		rank = type;
+		long multiplier = type.value;
 		long result = 0;
 		for (Integer rank : cardRanks) {
 			result += rank * multiplier;
@@ -256,6 +258,23 @@ public final class PokerHand implements Comparable<PokerHand> {
 			return null;
 		}
 	}
+	
+	
+
+	/**
+	 * @return the hand
+	 */
+	public final List<Card> getHand() {
+		return Collections.unmodifiableList(hand);
+	}
+
+
+	/**
+	 * @return the rank
+	 */
+	public final PokerHandRankings getRank() {
+		return rank;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -295,6 +314,9 @@ public final class PokerHand implements Comparable<PokerHand> {
 	 */
 	@Override
 	public String toString() {
-		return "PokerHand [" + "hand=" + hand + "]";
+		StringBuilder output = new StringBuilder();
+		for(final Card card : hand)
+			output.append(card + " ");
+		return output.toString().trim();
 	}
 }

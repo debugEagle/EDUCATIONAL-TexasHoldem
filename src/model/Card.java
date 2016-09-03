@@ -60,7 +60,7 @@ public class Card implements Comparable<Card> {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(obj != null && obj instanceof Card && obj.hashCode() == this.hashCode()){
+		if (obj != null && obj instanceof Card && obj.hashCode() == this.hashCode()) {
 			return true;
 		}
 		return false;
@@ -88,7 +88,7 @@ public class Card implements Comparable<Card> {
 			suit = 4;
 			break;
 		}
-		return suit*100+cardRank.getValue();
+		return suit * 100 + cardRank.getValue();
 	}
 
 	/*
@@ -98,8 +98,39 @@ public class Card implements Comparable<Card> {
 	 */
 	@Override
 	public String toString() {
-		return cardRank.name() + " of " + cardSuit.name();
+		char symbol = 'n';
+		String rank = "";
+		switch(cardSuit){
+		case Spades:
+			symbol = '\u2660';
+			break;
+		case Diamonds:
+			symbol = '\u2666';
+			break;
+		case Hearts:
+			symbol = '\u2665';
+			break;
+		case Clubs:
+			symbol = '\u2663';
+			break;
+		}
+		switch(cardRank){
+		case Ace:
+			rank = "A";
+			break;
+		case King:
+			rank = "K";
+			break;
+		case Queen:
+			rank = "Q";
+			break;
+		case Jack:
+			rank = "J";
+			break;
+		default:
+			rank = ""+cardRank.getValue();
+		}
+		return rank + symbol;
 	}
-
 
 }

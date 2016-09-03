@@ -24,7 +24,7 @@ public class PlayerTest {
 
 	@Test
 	public void testGetBestCards() {
-		Player tester = new Player();
+		Player tester = new Player("1");
 		ArrayList<Card> pCards = new ArrayList<>();
 		ArrayList<Card> cCards = new ArrayList<>();
 		pCards.add(new Card(Rank.Ace,Suit.Diamonds));
@@ -44,8 +44,29 @@ public class PlayerTest {
 	}
 	
 	@Test
+	public void testGetBestCardsToString() {
+		Player tester = new Player("1");
+		ArrayList<Card> pCards = new ArrayList<>();
+		ArrayList<Card> cCards = new ArrayList<>();
+		pCards.add(new Card(Rank.Ace,Suit.Diamonds));
+		pCards.add(new Card(Rank.King,Suit.Diamonds));
+		cCards.add(new Card(Rank.Ace,Suit.Clubs));
+		cCards.add(new Card(Rank.King,Suit.Clubs));
+		cCards.add(new Card(Rank.Queen,Suit.Diamonds));
+		cCards.add(new Card(Rank.Jack,Suit.Diamonds));
+		cCards.add(new Card(Rank.Ten,Suit.Diamonds));
+		
+		tester.setPersonalCards(pCards);
+		tester.setCommunityCards(cCards);
+		PokerHand best = tester.getBestHand();
+		
+		System.out.println(tester);
+		assertEquals("Player 1: $100.0 - A♦ K♦"+System.lineSeparator()+"\t Best Hand: A♦ K♦ Q♦ J♦ 10♦ - Straight Flush" + System.lineSeparator(),tester.toString());
+	}
+	
+	@Test
 	public void testGetBestCards2() {
-		Player tester = new Player();
+		Player tester = new Player("1");
 		ArrayList<Card> pCards = new ArrayList<>();
 		ArrayList<Card> cCards = new ArrayList<>();
 		pCards.add(new Card(Rank.Ace,Suit.Diamonds));
