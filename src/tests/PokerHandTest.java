@@ -33,7 +33,7 @@ public class PokerHandTest {
 		PokerHand handOne = new PokerHand(handOneCardOne, handOneCardTwo, handOneCardThree, handOneCardFour,
 				handOneCardFive);
 		
-		assertEquals("PokerHand [hand=[A♥, K♠, Q♥, J♦, 6♣]]",handOne.toString());
+		assertEquals("A♥ K♠ Q♥ J♦ 6♣",handOne.toString());
 	}
 	
 	@Test

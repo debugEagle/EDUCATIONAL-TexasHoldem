@@ -14,15 +14,16 @@ import java.util.List;
 public class Player {
 
 	// cards to be only used by this player
-	private List<Card> pCards;
+	private Card first;
+	private Card second;
 	// All community cards that can be used
 	private List<Card> cCard;
 	// The amount of cash this player has
-	private int cash;
-	//last best hand
+	private double cash;
+	// last best hand
 	private PokerHand lastBest;
-	//name
-	private final String name;
+	// name
+	public final String name;
 
 	public Player(String name) {
 		cash = 100;
@@ -30,15 +31,17 @@ public class Player {
 	}
 
 	public PokerHand getBestHand() {
-		ArrayList<PokerHand> allPossibleHands = new ArrayList<>();
+		if (first != null && second != null && cCard != null) {
+			ArrayList<PokerHand> allPossibleHands = new ArrayList<>();
 
-		for (int i = 0; i < cCard.size() - 2; i++)
-			for (int j = i + 1; j < cCard.size() - 1; j++)
-				for (int k = j + 1; k < cCard.size(); k++)
-					allPossibleHands.add(new PokerHand(pCards.get(0), pCards.get(1), cCard.get(i), cCard.get(j), cCard.get(k)));
+			for (int i = 0; i < cCard.size() - 2; i++)
+				for (int j = i + 1; j < cCard.size() - 1; j++)
+					for (int k = j + 1; k < cCard.size(); k++)
+						allPossibleHands.add(new PokerHand(first, second, cCard.get(i), cCard.get(j), cCard.get(k)));
 
-		Collections.sort(allPossibleHands, Collections.reverseOrder());
-		lastBest = allPossibleHands.get(0);
+			Collections.sort(allPossibleHands, Collections.reverseOrder());
+			lastBest = allPossibleHands.get(0);
+		}
 		return lastBest;
 	}
 
@@ -46,45 +49,49 @@ public class Player {
 	 * @param personalCards
 	 *            the personalCards to set
 	 */
-	public void setPersonalCards(List<Card> personalCards) {
-		this.pCards = personalCards;
+	public void setPersonalCards(Card first, Card second) {
+		this.first = first;
+		this.second = second;
 	}
-
 
 	/**
 	 * @param communityCards
 	 *            the communityCards to set
 	 */
-	public void setCommunityCards(List communityCards) {
+	public void setCommunityCards(List<Card> communityCards) {
 		this.cCard = communityCards;
 	}
+	
+	
 
 	/**
 	 * @return the cash
 	 */
-	public int getCash() {
+	public double getCash() {
 		return cash;
 	}
 
 	/**
-	 * @param cash
+	 * @param d
 	 *            the cash to set
 	 */
-	public void setCash(int cash) {
-		this.cash = cash;
+	public void setCash(double d) {
+		this.cash = d;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		StringBuilder output = new StringBuilder();
-		output.append("Player " + name + ": $" + cash + ".0 - " + pCards.get(0) + " " + pCards.get(1) + System.lineSeparator());
-		output.append("\t Best Hand: " + lastBest + " - " + lastBest.getRank().name + System.lineSeparator());
+		if (first != null && second != null && lastBest != null) {
+			output.append(name + ": $" + String.format("%1$,.2f", cash) + " - " + first + " " + second + System.lineSeparator());
+			output.append("\t Best Hand: " + lastBest + " - " + lastBest.getRank().name + System.lineSeparator());
+		}
 		return output.toString();
 	}
-	
-	
 
 }

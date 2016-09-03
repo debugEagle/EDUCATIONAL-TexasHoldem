@@ -258,16 +258,6 @@ public final class PokerHand implements Comparable<PokerHand> {
 			return null;
 		}
 	}
-	
-	
-
-	/**
-	 * @return the hand
-	 */
-	public final List<Card> getHand() {
-		return Collections.unmodifiableList(hand);
-	}
-
 
 	/**
 	 * @return the rank
