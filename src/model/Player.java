@@ -61,8 +61,13 @@ public class Player {
 	public void setCommunityCards(List<Card> communityCards) {
 		this.cCard = communityCards;
 	}
-	
-	
+
+	/**
+	 * @return the lastBest
+	 */
+	public PokerHand getLastBest() {
+		return lastBest;
+	}
 
 	/**
 	 * @return the cash
@@ -89,7 +94,7 @@ public class Player {
 		StringBuilder output = new StringBuilder();
 		if (first != null && second != null && lastBest != null) {
 			output.append(name + ": $" + String.format("%1$,.2f", cash) + " - " + first + " " + second + System.lineSeparator());
-			output.append("\t Best Hand: " + lastBest + " - " + lastBest.getRank().name + System.lineSeparator());
+			output.append("   Best Hand: " + lastBest + " - " + lastBest.getRank().name + System.lineSeparator());
 		}
 		return output.toString();
 	}
