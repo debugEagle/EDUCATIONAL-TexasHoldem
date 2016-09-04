@@ -17,13 +17,22 @@ import static model.Suit.*;
  */
 public class Game {
 
+	// used to construct all possible cards
 	private static final Rank[] ranks = new Rank[] { Duece, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack,
 			Queen, King, Ace };
 	private static final Suit[] suits = new Suit[] { Hearts, Diamonds, Clubs, Spades };
 
+	// stores the players in an array
 	private final ArrayList<Player> players;
+	// stores the 52 cards in a deck
 	private final ArrayList<Card> deck;
 
+	/**
+	 * creates 52 cards and the inputed number of players
+	 * 
+	 * @param numberOfPlayers
+	 *            The number of players in the game
+	 */
 	public Game(int numberOfPlayers) {
 		players = new ArrayList<>();
 		for (int i = 0; i < numberOfPlayers; i++)
@@ -35,33 +44,47 @@ public class Game {
 				deck.add(new Card(rank, suit));
 	}
 
+	/**
+	 * Creates and runs a new game object
+	 * 
+	 * @param args
+	 *            ignored
+	 */
 	public static void main(String[] args) {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		try {
-			System.out.print("How many Players: ");
+			System.out.print("How many players? ");
 			String in = bf.readLine();
-			int i = Integer.parseInt(in);
-			Game game = new Game(i);
-			game.run();
+			if (in != null) {
+				int i = Integer.parseInt(in);
+				Game game = new Game(i);
+				game.run();
+			}
 		} catch (IOException e) {
+			System.out.println("Invalid input: Only integers are allowed");
+		} catch (NumberFormatException e) {
 			System.out.println("Invalid input: Only integers are allowed");
 		}
 	}
 
+	/**
+	 * runs the core game loop, runs a single round then checks to see if
+	 * another round should be run
+	 */
 	public void run() {
 		boolean running = true;
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		while (running) {
+			//run the round
 			newRound();
 			try {
+				//check for another round
 				System.out.print("Play another round? y or n: ");
 				String in = bf.readLine();
-				if(in.equals("y")){
+				if (in != null && in.equals("y"))
 					continue;
-				} else {
-					running = false;
+				else
 					break;
-				}
 			} catch (IOException e) {
 				running = false;
 				break;
@@ -69,6 +92,11 @@ public class Game {
 		}
 	}
 
+	/**
+	 * runs all the processes of a round, first shuffles the deck, takes in ante
+	 * deals out cards, distributes the pot among winners, and then builds a
+	 * string Representation of the round.
+	 */
 	private void newRound() {
 		StringBuilder output = new StringBuilder();
 		output.append(System.lineSeparator());
@@ -80,20 +108,23 @@ public class Game {
 		ArrayList<Card> communityCards = dealCommunityCards();
 		// deal cards to the players
 		TreeMap<PokerHand, List<Player>> listOfPlayers = dealPlayersCards(communityCards);
-		//add the intermediate results to the output
+		// add the intermediate results to the output
 		output.append(roundAsString(communityCards));
 		// pays out the collected pot amongst the winners
 		payout(pot, listOfPlayers.get(listOfPlayers.lastKey()));
-		//add the winners to the output
+		// add the winners to the output
 		output.append(roundResultAsString(listOfPlayers));
-		
+
 		System.out.println(output.toString());
 	}
 
 	/**
 	 * Splits the pot amongst the winners
-	 * @param pot The amount of money in the pot
-	 * @param winners The winners of the round
+	 * 
+	 * @param pot
+	 *            The amount of money in the pot
+	 * @param winners
+	 *            The winners of the round
 	 */
 	public void payout(double pot, List<Player> winners) {
 		for (Player player : winners)
@@ -138,10 +169,12 @@ public class Game {
 	private TreeMap<PokerHand, List<Player>> dealPlayersCards(ArrayList<Card> communityCards) {
 		TreeMap<PokerHand, List<Player>> listOfPlayers = new TreeMap<>();
 		int index = communityCards.size();
+		//sort all the players into the map
 		for (Player player : players) {
 			player.setCommunityCards(communityCards);
 			player.setPersonalCards(deck.get(index++), deck.get(index++));
 			PokerHand bestHand = player.getBestHand();
+			//add the player to the map
 			if (listOfPlayers.containsKey(bestHand)) {
 				listOfPlayers.get(bestHand).add(player);
 			} else {
@@ -155,7 +188,9 @@ public class Game {
 
 	/**
 	 * displays the round as a string
-	 * @param communityCards The community cards
+	 * 
+	 * @param communityCards
+	 *            The community cards
 	 * @return Returns a string representation of the round
 	 */
 	private String roundAsString(ArrayList<Card> communityCards) {
@@ -177,7 +212,9 @@ public class Game {
 
 	/**
 	 * Outputs the results of a round as a string
-	 * @param players The winners
+	 * 
+	 * @param players
+	 *            The winners
 	 * @return The string representation of the winners
 	 */
 	private String roundResultAsString(TreeMap<PokerHand, List<Player>> players) {
@@ -188,21 +225,19 @@ public class Game {
 		// otherwise format for multiple winners
 		if (players.get(players.lastKey()).size() == 1) {
 			Map.Entry<PokerHand, List<Player>> winner = players.lastEntry();
-			output.append("Winner: " + winner.getValue().get(0).name + " ");
-			output.append("$"+ String.format("%1$,.2f", winner.getValue().get(0).getCash()));
-			output.append(System.lineSeparator() + divider + System.lineSeparator() + "   ");
-			output.append(winner.getKey().getRank().name + " " + winner.getKey().toString());
-			output.append(System.lineSeparator());
+			output.append("Winner: " + winner.getValue().get(0).name + " " + "$"
+					+ String.format("%1$,.2f", winner.getValue().get(0).getCash()) + System.lineSeparator() + divider
+					+ System.lineSeparator() + "   " + winner.getKey().getRank().name + " " + winner.getKey().toString()
+					+ System.lineSeparator());
 		} else {
 			output.append("Winning hands: (tie)" + System.lineSeparator() + divider + System.lineSeparator());
-			for(Player winner : players.get(players.lastKey())){
-				output.append(winner.getBestHand() + " - " + winner.getBestHand().getRank().name +  " - ");
-				output.append(winner.name + " $" + String.format("%1$,.2f", winner.getCash()));
-				output.append(System.lineSeparator());
+			for (Player winner : players.get(players.lastKey())) {
+				output.append(winner.getBestHand() + " - " + winner.getBestHand().getRank().name + " - " + winner.name
+						+ " $" + String.format("%1$,.2f", winner.getCash()) + System.lineSeparator());
 			}
 		}
-		
-		//return the output as string
+
+		// return the output as string
 		return output.toString();
 	}
 
