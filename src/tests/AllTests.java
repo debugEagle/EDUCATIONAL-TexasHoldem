@@ -13,7 +13,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *
  */
 @RunWith(Suite.class)
-@SuiteClasses({ PlayerTest.class, PokerHandTest.class, RankSuitAndCardTest.class })
+@SuiteClasses({ PlayerTest.class, PokerHandTest.class, RankSuitAndCardTest.class, OfficialTest.class, GameTest.class })
 public class AllTests {
 
 }

@@ -60,7 +60,11 @@ public class PlayerTest {
 		tester.setCommunityCards(cCards);
 		PokerHand best = tester.getBestHand();
 		
-		assertEquals("Player 1: $100.00 - A♦ K♦"+System.lineSeparator()+"\t Best Hand: A♦ K♦ Q♦ J♦ 10♦ - Straight Flush" + System.lineSeparator(),tester.toString());
+		assertEquals(100,tester.getCash(),0);
+		tester.setCash(101);
+		assertEquals(101,tester.getCash(),0);
+		assertEquals(true, tester.getLastBest().equals(best));
+		assertEquals("Player 1: $101.00 - A♦ K♦"+System.lineSeparator()+"   Best Hand: A♦ K♦ Q♦ J♦ 10♦ - Straight Flush" + System.lineSeparator(),tester.toString());
 	}
 	
 	@Test

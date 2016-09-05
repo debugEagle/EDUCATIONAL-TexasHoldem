@@ -18,7 +18,7 @@ import static model.Suit.*;
 public class Game {
 
 	// used to construct all possible cards
-	private static final Rank[] ranks = new Rank[] { Duece, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack,
+	private static final Rank[] ranks = new Rank[] { Deuce, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack,
 			Queen, King, Ace };
 	private static final Suit[] suits = new Suit[] { Hearts, Diamonds, Clubs, Spades };
 
@@ -97,7 +97,7 @@ public class Game {
 	 * deals out cards, distributes the pot among winners, and then builds a
 	 * string Representation of the round.
 	 */
-	private void newRound() {
+	public void newRound() {
 		StringBuilder output = new StringBuilder();
 		output.append(System.lineSeparator());
 		// shuffle the deck
@@ -150,7 +150,7 @@ public class Game {
 	 * 
 	 * @return The arrayList that contains the cards
 	 */
-	private ArrayList<Card> dealCommunityCards() {
+	public ArrayList<Card> dealCommunityCards() {
 		ArrayList<Card> communityCards = new ArrayList<>();
 		for (int i = 0; i < 5; i++)
 			communityCards.add(deck.get(i));
@@ -166,7 +166,7 @@ public class Game {
 	 *            The community cards all players can use
 	 * @return A TreeMap that ranks the players for this round
 	 */
-	private TreeMap<PokerHand, List<Player>> dealPlayersCards(ArrayList<Card> communityCards) {
+	public TreeMap<PokerHand, List<Player>> dealPlayersCards(ArrayList<Card> communityCards) {
 		TreeMap<PokerHand, List<Player>> listOfPlayers = new TreeMap<>();
 		int index = communityCards.size();
 		//sort all the players into the map
@@ -193,7 +193,7 @@ public class Game {
 	 *            The community cards
 	 * @return Returns a string representation of the round
 	 */
-	private String roundAsString(ArrayList<Card> communityCards) {
+	public String roundAsString(ArrayList<Card> communityCards) {
 		StringBuilder output = new StringBuilder();
 		String divider = "++++++++++++++++++++++++++++++++++++";
 
@@ -217,7 +217,7 @@ public class Game {
 	 *            The winners
 	 * @return The string representation of the winners
 	 */
-	private String roundResultAsString(TreeMap<PokerHand, List<Player>> players) {
+	public String roundResultAsString(TreeMap<PokerHand, List<Player>> players) {
 		StringBuilder output = new StringBuilder();
 		String divider = "++++++++++++++++++++++++++++++++++++";
 
@@ -240,5 +240,7 @@ public class Game {
 		// return the output as string
 		return output.toString();
 	}
+	
+	
 
 }

@@ -48,10 +48,9 @@ public final class PokerHand implements Comparable<PokerHand> {
 		Collections.sort(hand, Collections.reverseOrder());
 
 		// tests if there are duplicate cards in the hand
-		for (int i = 0; i < hand.size(); i++)
-			for (int j = i + 1; j < hand.size(); j++)
-				if (hand.get(i).equals(hand.get(j)))
-					throw new DuplicateCardException();
+		for (Card card : hand)
+			if(card == null || card.getRank() == null || card.getSuit() == null)
+				throw new NullPointerException();
 
 		// find the value of this hand and store it into the value variable
 		value = findValue();

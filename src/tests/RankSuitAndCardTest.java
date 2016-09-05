@@ -23,9 +23,9 @@ public class RankSuitAndCardTest {
 
 	@Test
 	public void testTwoOfHearts(){
-		Card KH = new Card(Rank.Duece, Suit.Hearts);
+		Card KH = new Card(Rank.Deuce, Suit.Hearts);
 		assertEquals(Suit.Hearts, KH.getSuit());
-		assertEquals(Rank.Duece, KH.getRank());
+		assertEquals(Rank.Deuce, KH.getRank());
 		assertEquals(2, KH.getRank().getValue());
 	}
 	
@@ -130,7 +130,7 @@ public class RankSuitAndCardTest {
 		Card cardTwo = new Card(Rank.Ace,Suit.Clubs);
 		Card cardThree = new Card(Rank.Four,Suit.Clubs);
 		Card cardFour = new Card(Rank.Queen,Suit.Clubs);
-		Card cardFive = new Card(Rank.Duece,Suit.Clubs);
+		Card cardFive = new Card(Rank.Deuce,Suit.Clubs);
 		
 		ArrayList<Card> list = new ArrayList<>();
 		list.add(cardOne);
@@ -145,7 +145,7 @@ public class RankSuitAndCardTest {
 		assertEquals(Rank.Queen,list.get(1).getRank());
 		assertEquals(Rank.Seven,list.get(2).getRank());
 		assertEquals(Rank.Four,list.get(3).getRank());
-		assertEquals(Rank.Duece,list.get(4).getRank());
+		assertEquals(Rank.Deuce,list.get(4).getRank());
 	}
 	
 	@Test
