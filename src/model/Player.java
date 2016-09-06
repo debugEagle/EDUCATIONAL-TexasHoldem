@@ -30,7 +30,7 @@ public class Player {
 	public final String name;
 
 	/**
-	 * creates a new player object with a defualt of $100 and a name
+	 * creates a new player object with a default of $100 and a name
 	 * 
 	 * @param name
 	 *            The name of the player
@@ -59,7 +59,8 @@ public class Player {
 					for (int k = j + 1; k < allCards.size() - 2; k++)
 						for (int l = k + 1; l < allCards.size() - 1; l++)
 							for (int m = l + 1; m < allCards.size(); m++)
-								allPossibleHands.add(new PokerHand(allCards.get(i), allCards.get(j), allCards.get(k), allCards.get(l), allCards.get(m)));
+								allPossibleHands.add(new PokerHand(allCards.get(i), allCards.get(j), allCards.get(k),
+										allCards.get(l), allCards.get(m)));
 			// sorts the collection
 			Collections.sort(allPossibleHands, Collections.reverseOrder());
 			lastBest = allPossibleHands.get(0);
@@ -99,8 +100,7 @@ public class Player {
 	}
 
 	/**
-	 * @param d
-	 *            the cash to set
+	 * @param d the cash to set
 	 */
 	public void setCash(double d) {
 		this.cash = d;

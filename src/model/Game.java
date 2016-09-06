@@ -1,12 +1,11 @@
 package model;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.TreeMap;
 
 import static model.Rank.*;
@@ -51,20 +50,16 @@ public class Game {
 	 *            ignored
 	 */
 	public static void main(String[] args) {
-		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+		Scanner input = new Scanner(System.in);
+		System.out.print("How many players? ");
 		try {
-			System.out.print("How many players? ");
-			String in = bf.readLine();
-			if (in != null) {
-				int i = Integer.parseInt(in);
-				Game game = new Game(i);
-				game.run();
-			}
-		} catch (IOException e) {
-			System.out.println("Invalid input: Only integers are allowed");
-		} catch (NumberFormatException e) {
+			int i = input.nextInt();
+			Game game = new Game(i);
+			game.run();
+		} catch (InputMismatchException e) {
 			System.out.println("Invalid input: Only integers are allowed");
 		}
+		input.close();
 	}
 
 	/**
@@ -73,23 +68,18 @@ public class Game {
 	 */
 	public void run() {
 		boolean running = true;
-		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+		Scanner input = new Scanner(System.in);
 		while (running) {
 			//run the round
 			newRound();
-			try {
-				//check for another round
-				System.out.print("Play another round? y or n: ");
-				String in = bf.readLine();
-				if (in != null && in.equals("y"))
-					continue;
-				else
-					break;
-			} catch (IOException e) {
-				running = false;
+			System.out.print("Play another round? y or n: ");
+			String in = input.next();
+			if (in.equals("y"))
+				continue;
+			else
 				break;
-			}
 		}
+		input.close();
 	}
 
 	/**
